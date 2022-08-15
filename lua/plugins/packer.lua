@@ -9,7 +9,6 @@ function Packer.startup(plugins)
             use(config)
         end
     end)
-    
 end
 
 return Packer
