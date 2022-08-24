@@ -1,3 +1,4 @@
+vim.opt.mouse = "a" -- enable mouse support
 vim.opt.relativenumber = true
 vim.opt.signcolumn = "yes"
 vim.opt.number = true
