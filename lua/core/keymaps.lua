@@ -10,19 +10,17 @@ set("n", "n", "nzzzv")
 set("n", "N", "Nzzzv")
 set("n", "<C-d>", "<C-d>zz")
 set("n", "<C-u>", "<C-u>zz")
+-- set("n", "J", "mzJ`z")
 
+set({"n", "v"}, "<leader>y", "\"+y")
 
-set("v", "<leader>y", "\"+y")
-set("v", "<leader>y", "\"+y")
-
-set("n", "<leader>p", "\"+p")
-set("v", "<leader>p", "\"+p")
-
-set("n", "<leader>d", "\"_d")
-set("v", "<leader>d", "\"_d")
+set({"n", "v"}, "<leader>p", "\"+p")
+set({"n", "v"}, "<leader>d", "\"_d")
 
 set("n", "x", "\"_x")
 
+set("n", "<C-j>", "<cmd>cnext<CR>zz")
+set("n", "<C-k>", "<cmd>cprev<CR>zz")
 
 set("n", "tn", "<cmd>tabnew<CR>") -- Create new tab
 set({ "n", "i" }, "<C-L>", "<cmd>tabnext<CR>") -- Switch to right tab
@@ -31,8 +29,7 @@ set("n", "tc", "<cmd>tabclose<CR>") -- Close current tab
 set("n", "tac", "<cmd>tabo<CR>") -- Close all tabs
 
 
-set("n", "vsp", ":vsplit<Return><C-w>w")
-set("n", "sp", ":split<Return><C-w>j")
+set("n", "sp", ":vsplit<Return><C-w>w")
 set("n", "<leader>h", "<C-w>h")
 set("n", "<leader>j", "<C-w>j")
 set("n", "<leader>k", "<C-w>k")
