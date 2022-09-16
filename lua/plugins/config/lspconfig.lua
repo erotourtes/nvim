@@ -1,4 +1,4 @@
-local loaded, nvim_lsp = pcall(require, "lspconfig")
+local loaded, lspconfig = pcall(require, "lspconfig")
 if not loaded then print("Lsp is not loaded") return end
 
 local set = vim.keymap.set
@@ -9,29 +9,33 @@ set("n", "<Leader>lf", buf.formatting)
 set("n", "<Leader>lr", buf.rename)
 set("n", "<Leader>la", buf.code_action)
 
-local on_attach = function(_, buffer)
-  -- Enable completion triggered by <c-x><c-o>
-  vim.api.nvim_buf_set_option(buffer, "omnifunc", "v:lua.vim.lsp.omnifunc")
-end
+local servers = { "pyright", "rust_analyzer", "tsserver", "sumneko_lua", "html" }
 
-local runtime_path = vim.split(package.path, ";")
-table.insert(runtime_path, "lua/?.lua")
-table.insert(runtime_path, "lua/?/init.lua")
-
-local Lua = {
-  runtime = { version = "LuaJIT", path = runtime_path },
-  diagnostics = { globals = { "vim" } },
-  workspace = { library = vim.api.nvim_get_runtime_file("", true) },
-  telemetry = { enable = false },
+local config = {
+  default = {
+    flags = { debounce_text_changes = 150 },
+    format = false,
+  },
+  sumneko_lua = {
+    settings = {
+      Lua = {
+        runtime = { version = "LuaJIT" },
+        diagnostics = { globals = { "vim" } },
+        workspace = { library = vim.api.nvim_get_runtime_file("", true) },
+        telemetry = { enable = false },
+      },
+    },
+  },
 }
 
-local servers = { "pyright", "rust_analyzer", "tsserver", "sumneko_lua" }
-for _, lsp in ipairs(servers) do
-  nvim_lsp[lsp].setup({
-    on_attach = on_attach,
-    flags = { debounce_text_changes = 150 },
-    settings = { Lua = Lua },
-  })
+for _, server_name in ipairs(servers) do
+  local default_config = config.default
+  local specific_config = config[server_name]
+  if specific_config == nil then
+    lspconfig[server_name].setup(default_config)
+  else
+    lspconfig[server_name].setup(vim.tbl_extend("force", default_config, specific_config))
+  end
 end
 
 local signs = { Error = "", Warn = "", Hint = "", Info = "" }

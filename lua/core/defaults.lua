@@ -29,18 +29,9 @@ vim.opt.shell = "fish"
 
 vim.opt.laststatus = 3 -- Set global status line
 
-
-local function set_hi_groups()
-  vim.cmd([[highlight WinSeparator guibg=None]]) -- Remove borders for window separators
-  vim.cmd([[highlight SignColumn guibg=None]]) -- Remove background from signs column
-end
-set_hi_groups()
-
-
 -- Add position to jumplist if moving more than 5 lines up or down
 vim.keymap.set("n", "j", [[v:count ? (v:count > 5 ? "m'" . v:count : '') . 'j' : 'j']], { expr = true })
 vim.keymap.set("n", "k", [[v:count ? (v:count > 5 ? "m'" . v:count : '') . 'k' : 'k']], { expr = true })
-
 
 -- Don't auto comment new lines
 vim.api.nvim_create_autocmd("BufEnter", {
