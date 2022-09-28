@@ -23,8 +23,6 @@ vim.opt.termguicolors = true
 
 vim.opt.scrolloff = 10
 
-vim.opt.updatetime = 50
-
 vim.opt.shell = "fish"
 
 vim.opt.laststatus = 3 -- Set global status line

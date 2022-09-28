@@ -8,8 +8,9 @@ set("n", "<S-K>", buf.hover)
 set("n", "<Leader>lf", buf.formatting)
 set("n", "<Leader>lr", buf.rename)
 set("n", "<Leader>la", buf.code_action)
+vim.keymap.set("n", "<Leader>lcr", vim.lsp.codelens.refresh)
 
-local servers = { "pyright", "rust_analyzer", "tsserver", "sumneko_lua", "html" }
+local servers = { "pyright", "rust_analyzer", "tsserver", "sumneko_lua", "html", "clangd" }
 
 local config = {
   default = {

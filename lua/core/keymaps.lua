@@ -13,6 +13,8 @@ set("n", "<C-i>", "<C-i>zz")
 set("n", "<C-o>", "<C-o>zz")
 -- set("n", "<C-f>", "<C-f>zz")
 -- set("n", "<C-b>", "<C-b>zz")
+vim.keymap.set("n", "<S-g>", "<S-g>zz")
+
 
 set({"n", "v"}, "<leader>y", "\"+y")
 
@@ -36,3 +38,5 @@ set("n", "tac", "<cmd>tabo<CR>") -- Close all tabs
 set("n", "sp", ":vsplit<Return><C-w>w")
 set("n", "<leader>h", "<C-w>h")
 set("n", "<leader>l", "<C-w>l")
+set("n", "<leader>j", "<C-w>j")
+set("n", "<leader>k", "<C-w>k")
