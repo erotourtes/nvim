@@ -10,6 +10,10 @@ return {
     config = function() require("plugins.config.treesitter") end,
     run = ":TSUpdate",
   },
+  ['nvim-treesitter/nvim-treesitter-context'] = {
+    config = function () require("plugins.config.treesitter-context") end,
+    after = "nvim-treesitter",
+  },
 
   ["jose-elias-alvarez/null-ls.nvim"] = {
     after = "nvim-lspconfig",
