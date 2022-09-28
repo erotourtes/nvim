@@ -33,13 +33,16 @@ return {
     keys = { "<Leader>f" }, -- All Telescope keybindings start with <Leader>f
   },
 
-  -- ["lewis6991/gitsigns.nvim"] = { config = function() require("plugins.config.gitsigns") end},
+  ["ThePrimeagen/harpoon"] = {
+    config = function() require("plugins.config.harpoon") end,
+  },
 
-  ['lewis6991/gitsigns.nvim'] = { config = function()
-    require("gitsigns").setup({
-      yadm = { enable = false } --{ enable = vim.fn.executable("yadm") == 1 },
-    })
-  end },
+  ["lewis6991/gitsigns.nvim"] = { config = function() require("plugins.config.gitsigns") end },
+
+  ["akinsho/toggleterm.nvim"] = {
+    config = function() require("plugins.config.toggleterm") end,
+    keys = { "<C-T>" },
+  },
 
   ["numToStr/Comment.nvim"] = { config = function() require("Comment").setup() end, keys = { "gc", "gb" } },
 
@@ -51,6 +54,9 @@ return {
   ['nvim-lualine/lualine.nvim'] = {
     requires = { 'kyazdani42/nvim-web-devicons', opt = true },
     config = function() require("plugins.config.lualine") end,
+    -- keys = { "i", "c", "a", "A", "o", "O" },
+    -- after = "telescope.nvim"
+    -- event = "BufModifiedSet"
   },
 
   ["windwp/nvim-autopairs"] = {
