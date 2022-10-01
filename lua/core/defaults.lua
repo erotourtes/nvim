@@ -31,6 +31,49 @@ vim.opt.laststatus = 3 -- Set global status line
 vim.keymap.set("n", "j", [[v:count ? (v:count > 5 ? "m'" . v:count : '') . 'j' : 'j']], { expr = true })
 vim.keymap.set("n", "k", [[v:count ? (v:count > 5 ? "m'" . v:count : '') . 'k' : 'k']], { expr = true })
 
+local function default()
+  vim.cmd([[
+   highlight Normal guibg=NONE ctermbg=NONE
+   highlight EndOfBuffer guibg=NONE ctermbg=NONE
+   highlight NonText ctermbg=NONE
+   highlight WinSeparator guibg=None  " Remove borders for window separators
+   highlight SignColumn guibg=None " Remove background from signs column
+   highlight NvimTreeWinSeparator guibg=None
+   highlight NvimTreeEndOfBuffer guibg=None
+   highlight NvimTreeNormal guibg=None
+]] )
+
+  vim.opt.cursorline = true
+  vim.cmd([[
+    hi clear CursorLine
+]] )
+
+end
+
+local function onedark()
+  local theme = require("onedark")
+  theme.setup({theme = "darker"})
+  theme.load()
+  default()
+end
+
+onedark()
+
+vim.api.nvim_create_autocmd("TextYankPost", {
+  pattern = "*",
+  group = vim.api.nvim_create_augroup("TextYankPost", { clear = true }),
+  callback = function()
+    local mode = vim.api.nvim_get_mode()["mode"]
+
+    -- Only highlight in normal mode. not in visual
+    if mode == "no" then vim.highlight.on_yank({
+        higroup = "Visual",
+        timeout = 75,
+      })
+    end
+  end,
+})
+
 -- Don't auto comment new lines
 vim.api.nvim_create_autocmd("BufEnter", {
   pattern = "*",
