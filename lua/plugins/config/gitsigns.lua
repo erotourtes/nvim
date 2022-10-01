@@ -1,6 +1,9 @@
 local loaded, gitsigns = pcall(require, "gitsigns")
 if not loaded then print("Gitsigns is not loaded") return end
 
+vim.keymap.set("n", "<leader>gh", ":Gitsigns reset_hunk<cr>")
+vim.keymap.set("n", "<leader>gb", ":Gitsigns reset_buffer<cr>")
+
 local ic = require("ui.icons").ui
 
 local options = {
@@ -23,8 +26,6 @@ local function set_hi_groups()
   vim.cmd([[highlight GitSignsAdd guibg=None guifg=Green]])
   vim.cmd([[highlight GitSignsChange guibg=None guifg=DarkCyan]])
   vim.cmd([[highlight GitSignsDelete guibg=None guifg=Grey]])
-  vim.cmd([[highlight WinSeparator guibg=None]]) -- Remove borders for window separators
-  vim.cmd([[highlight SignColumn guibg=None]]) -- Remove background from signs column
 end
 
 gitsigns.setup(options)

@@ -11,8 +11,12 @@ return {
     run = ":TSUpdate",
   },
   ['nvim-treesitter/nvim-treesitter-context'] = {
-    config = function () require("plugins.config.treesitter-context") end,
+    config = function() require("plugins.config.treesitter-context") end,
     after = "nvim-treesitter",
+  },
+  ['m-demare/hlargs.nvim'] = {
+    requires = { 'nvim-treesitter/nvim-treesitter' },
+    config = function () require('hlargs').setup { color = '#e06c75' --[[ '#be5046' ]], } end,
   },
 
   ["jose-elias-alvarez/null-ls.nvim"] = {
@@ -68,5 +72,5 @@ return {
     after = "friendly-snippets"
   },
 
-  ['navarasu/onedark.nvim'] = { config = function() require("onedark").load() end },
+  ['navarasu/onedark.nvim'] = {},
 }
