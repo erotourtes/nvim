@@ -56,15 +56,23 @@ return {
 
   ["kyazdani42/nvim-tree.lua"] = {
     config = function() require("plugins.config.nvim-tree") end,
-    keys = { "<C-N>" },
+    keys = { "<C-N>", "<C-f>" },
   },
 
-  ['nvim-lualine/lualine.nvim'] = {
+  -- Debugging
+  ["mfussenegger/nvim-dap"] = { config = function() require("plugins.config.dap") end},
+  ["rcarriga/nvim-dap-ui"] = {
+    config = function() require("plugins.config.dapui") end,
+    after = { "nvim-dap" }
+  },
+  ["theHamsta/nvim-dap-virtual-text"] = {
+    config = function() require("nvim-dap-virtual-text").setup() end,
+    after = { "nvim-dap" }
+  },
+
+  ["nvim-lualine/lualine.nvim"] = {
     requires = { 'kyazdani42/nvim-web-devicons', opt = true },
     config = function() require("plugins.config.lualine") end,
-    -- keys = { "i", "c", "a", "A", "o", "O" },
-    -- after = "telescope.nvim"
-    -- event = "BufModifiedSet"
   },
 
   ["windwp/nvim-autopairs"] = {
@@ -72,5 +80,5 @@ return {
     after = "friendly-snippets"
   },
 
-  ['navarasu/onedark.nvim'] = {},
+  ["navarasu/onedark.nvim"] = {},
 }
