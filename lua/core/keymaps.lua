@@ -19,7 +19,7 @@ set("n", "<S-g>", "<S-g>zz")
 set({"n", "v"}, "<leader>y", "\"+y")
 
 set({"n", "v"}, "<leader>p", "\"+p")
-set({"n", "v"}, "<leader>d", "\"_d")
+set({"n", "v"}, "<leader>d", "\"+d")
 
 set("n", "x", "\"_x")
 
