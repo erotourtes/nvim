@@ -32,10 +32,11 @@ local options = {
   window = {
     completion = {
       border = border("CmpBorder"),
-      winhighlight = "Normal:CmpPmenu,CursorLine:PmenuSel,Search:None",
+      winhighlight = "Normal:Normal,CursorLine:PmenuSel,Search:None",
     },
     documentation = {
       border = border("CmpDocBorder"),
+      winhighlight = "Normal:Normal",
     },
   },
   snippet = {
