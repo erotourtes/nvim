@@ -1,23 +1,47 @@
-local loaded, lspconfig = pcall(require, "lspconfig")
-if not loaded then print("Lsp is not loaded") return end
+local lspconfig = require("lspconfig")
 
-local set = vim.keymap.set
-local buf = vim.lsp.buf
-set("n", "gd", buf.definition)
-set("n", "<S-K>", buf.hover)
-set("n", "<Leader>lf", buf.formatting)
-set("n", "<Leader>lr", buf.rename)
-set("n", "<Leader>la", buf.code_action)
-vim.keymap.set("n", "<Leader>lcr", vim.lsp.codelens.refresh)
+local servers = {
+  "pyright",
+  "rust_analyzer",
+  "tsserver",
+  "sumneko_lua",
+  "svelte",
+  "html",
+  "jsonls",
+  "eslint",
+  "cssls",
+  "clangd",
+  "bashls",
+}
 
-local servers = { "pyright", "rust_analyzer", "tsserver", "sumneko_lua", "html", "clangd" }
+local function disable_formatting(client)
+  client.server_capabilities.documentFormattingProvider = false
+  client.server_capabilities.documentRangeFormattingProvider = false
+end
+
+local function on_attach(_, buffer)
+  local function set(lhs, rhs) vim.keymap.set("n", lhs, rhs, { buffer = buffer }) end
+
+  -- TODO: center async goto definition with use of :h lsp-handler
+  -- https://www.reddit.com/r/neovim/comments/r756ur/how_can_you_center_the_cursor_when_going_to/
+  set("gd", vim.lsp.buf.definition)
+  set("<S-K>", vim.lsp.buf.hover)
+  set("<Leader>lf", function() vim.lsp.buf.format({ async = true }) end)
+  set("<Leader>lr", vim.lsp.buf.rename)
+  set("<Leader>la", vim.lsp.buf.code_action)
+  set("<Leader>lcr", vim.lsp.codelens.refresh)
+end
 
 local config = {
   default = {
     flags = { debounce_text_changes = 150 },
-    format = false,
+    on_attach = function(client, buffer)
+      disable_formatting(client)
+      on_attach(client, buffer)
+    end,
   },
   sumneko_lua = {
+    on_attach = on_attach,
     settings = {
       Lua = {
         runtime = { version = "LuaJIT" },
@@ -26,6 +50,12 @@ local config = {
         telemetry = { enable = false },
       },
     },
+  },
+  tsserver = {
+    on_attach = function(client, buffer)
+      disable_formatting(client)
+      on_attach(client, buffer)
+    end,
   },
 }
 
