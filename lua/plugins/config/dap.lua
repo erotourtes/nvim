@@ -17,7 +17,8 @@ vim.keymap.set("n", "<leader>B", tmp)
 dap.adapters.cppdbg = {
   id = 'cppdbg',
   type = 'executable',
-  command = '/home/sirmax/.vscode/extensions/ms-vscode.cpptools-1.12.4-linux-x64/debugAdapters/bin/OpenDebugAD7'
+  -- command = '/home/sirmax/.vscode/extensions/ms-vscode.cpptools-1.12.4-linux-x64/debugAdapters/bin/OpenDebugAD7'
+  command = '/home/sirmax/.local/share/nvim/mason/packages/cpptools/extension/debugAdapters/bin/OpenDebugAD7'
 }
 
 dap.configurations.cpp = {

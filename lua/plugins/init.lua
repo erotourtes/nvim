@@ -34,7 +34,7 @@ return {
   ["hrsh7th/cmp-buffer"] = { after = "cmp-nvim-lua" },
   ["hrsh7th/cmp-path"] = { after = "cmp-buffer" },
 
-  ["williamboman/mason.nvim"] = { config = function() require("mason").setup() end },
+  ["williamboman/mason.nvim"] = { config = function() require("plugins.config.mason") end },
 
   ["nvim-telescope/telescope.nvim"] = {
     config = function() require("plugins.config.telescope") end,
