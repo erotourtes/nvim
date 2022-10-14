@@ -8,7 +8,7 @@ nvim_tree.setup({
   hijack_cursor = true,
   view = {
     width = 35,
-    height = 35,
+    -- height = 35,
     adaptive_size = true,
     hide_root_folder = false,
     side = "left",

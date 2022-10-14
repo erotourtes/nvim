@@ -25,11 +25,27 @@ local function on_attach(_, buffer)
   -- TODO: center async goto definition with use of :h lsp-handler
   -- https://www.reddit.com/r/neovim/comments/r756ur/how_can_you_center_the_cursor_when_going_to/
   set("gd", vim.lsp.buf.definition)
+  set("gD", vim.lsp.buf.declaration)
+  set("gl", vim.lsp.buf.implementation)
+
   set("<S-K>", vim.lsp.buf.hover)
   set("<Leader>lf", function() vim.lsp.buf.format({ async = true }) end)
   set("<Leader>lr", vim.lsp.buf.rename)
   set("<Leader>la", vim.lsp.buf.code_action)
   set("<Leader>lcr", vim.lsp.codelens.refresh)
+
+  set("<M-n>", vim.diagnostic.goto_prev)
+  set("<M-p>", vim.diagnostic.goto_next)
+
+  -- set("<Leader>lt", vim.lsp.buf.type_definition)
+  -- set("<Leader>ls", vim.lsp.buf.signature_help)
+  --
+  -- set("<Leader>lwa", vim.lsp.buf.add_workspace_folder)
+  -- set("<Leader>lwr", vim.lsp.buf.remove_workspace_folder)
+  -- set("<Leader>lwl", function()
+  --   print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+  -- end)
+
 end
 
 local config = {
