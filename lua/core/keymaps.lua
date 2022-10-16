@@ -40,3 +40,11 @@ set("n", "<leader>h", "<C-w>h")
 set("n", "<leader>l", "<C-w>l")
 set("n", "<leader>j", "<C-w>j")
 set("n", "<leader>k", "<C-w>k")
+
+set("n", "<leader>m", function()
+  local text = vim.fn.getreg('"')
+  vim.fn.setreg('"', text:match "^%s*(.-)%s*$")
+
+  vim.cmd('normal! ""p')
+end)
+
