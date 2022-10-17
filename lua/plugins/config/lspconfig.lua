@@ -32,10 +32,10 @@ local function on_attach(_, buffer)
   set("<Leader>lf", function() vim.lsp.buf.format({ async = true }) end)
   set("<Leader>lr", vim.lsp.buf.rename)
   set("<Leader>la", vim.lsp.buf.code_action)
-  set("<Leader>lcr", vim.lsp.codelens.refresh)
+  -- set("<Leader>lcr", vim.lsp.codelens.refresh)
 
-  set("<M-n>", vim.diagnostic.goto_prev)
-  set("<M-p>", vim.diagnostic.goto_next)
+  set("<M-p>", vim.diagnostic.goto_prev)
+  set("<M-n>", vim.diagnostic.goto_next)
 
   -- set("<Leader>lt", vim.lsp.buf.type_definition)
   -- set("<Leader>ls", vim.lsp.buf.signature_help)
