@@ -3,7 +3,6 @@ local ok_luasnip, luasnip = pcall(require, "luasnip")
 
 if not ok_cmp or not ok_luasnip then return end
 
-local cmp_window = require("cmp.utils.window")
 local icons = require("ui.icons").lspkind
 
 vim.opt.completeopt = "menuone,noselect"
@@ -19,13 +18,6 @@ local function border(hl_name)
     { "╰", hl_name },
     { "│", hl_name },
   }
-end
-
-local _cmp_info = cmp_window.info
-cmp_window.info = function(self)
-  local info = _cmp_info(self)
-  info.scrollable = false
-  return info
 end
 
 local options = {
@@ -57,13 +49,13 @@ local options = {
     ["<C-e>"] = cmp.mapping.close(),
     ["<CR>"] = cmp.mapping.confirm({
       behavior = cmp.ConfirmBehavior.Insert,
-      select = false,
+      select = false, -- Enter only explicitly selected item
     }),
   },
   sources = {
-    { name = "luasnip" },
     { name = "nvim_lsp" },
     { name = "nvim_lua" },
+    { name = "luasnip" },
     { name = "buffer" },
     { name = "path" },
   },
