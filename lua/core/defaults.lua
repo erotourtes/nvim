@@ -1,3 +1,5 @@
+local autocmd = vim.api.nvim_create_autocmd
+
 vim.opt.mouse = "a" -- enable mouse support
 vim.opt.relativenumber = true
 vim.opt.signcolumn = "yes"
@@ -59,7 +61,7 @@ end
 
 onedark()
 
-vim.api.nvim_create_autocmd("TextYankPost", {
+autocmd("TextYankPost", {
   pattern = "*",
   group = vim.api.nvim_create_augroup("TextYankPost", { clear = true }),
   callback = function()
@@ -75,7 +77,7 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 })
 
 -- Don't auto comment new lines
-vim.api.nvim_create_autocmd("BufEnter", {
+autocmd("BufEnter", {
   pattern = "*",
   command = "set fo-=c fo-=r fo-=o",
 })

@@ -3,6 +3,8 @@ if not loaded then print("Gitsigns is not loaded") return end
 
 vim.keymap.set("n", "<leader>gh", ":Gitsigns reset_hunk<cr>")
 vim.keymap.set("n", "<leader>gb", ":Gitsigns reset_buffer<cr>")
+vim.keymap.set("n", "<leader>gn", ":Gitsigns next_hunk<cr>")
+vim.keymap.set("n", "<leader>gp", ":Gitsigns prev_hunk<cr>")
 
 local ic = require("ui.icons").ui
 

@@ -15,7 +15,7 @@ local options = {
       return buf_size > 1000000
     end,
   },
-  indent = { enable = false },
+  indent = { enable = true },
   playground = {
     enable = true,
   },
