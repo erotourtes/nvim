@@ -1,10 +1,10 @@
 local loaded, gitsigns = pcall(require, "gitsigns")
 if not loaded then print("Gitsigns is not loaded") return end
 
-vim.keymap.set("n", "<leader>gh", ":Gitsigns reset_hunk<cr>")
-vim.keymap.set("n", "<leader>gb", ":Gitsigns reset_buffer<cr>")
-vim.keymap.set("n", "<leader>gn", ":Gitsigns next_hunk<cr>")
-vim.keymap.set("n", "<leader>gp", ":Gitsigns prev_hunk<cr>")
+vim.keymap.set("n", "<leader>gr", ":Gitsigns reset_hunk<cr>")
+vim.keymap.set("n", "<leader>gR", ":Gitsigns reset_buffer<cr>")
+vim.keymap.set("n", "<leader>gn", ":Gitsigns next_hunk<cr>zz")
+vim.keymap.set("n", "<leader>gp", ":Gitsigns prev_hunk<cr>zz")
 
 local ic = require("ui.icons").ui
 
