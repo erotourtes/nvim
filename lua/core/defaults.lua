@@ -34,28 +34,30 @@ vim.keymap.set("n", "j", [[v:count ? (v:count > 5 ? "m'" . v:count : '') . 'j' :
 vim.keymap.set("n", "k", [[v:count ? (v:count > 5 ? "m'" . v:count : '') . 'k' : 'k']], { expr = true })
 
 local function default()
-  vim.cmd([[
-   highlight Normal guibg=NONE ctermbg=NONE
-   highlight EndOfBuffer guibg=NONE ctermbg=NONE
-   highlight NonText ctermbg=NONE
-   highlight WinSeparator guibg=None  " Remove borders for window separators
-   highlight SignColumn guibg=None " Remove background from signs column
-   highlight NvimTreeWinSeparator guibg=None
-   highlight NvimTreeEndOfBuffer guibg=None
-   highlight NvimTreeNormal guibg=None
-]] )
-
+  -- highlight current line number
   vim.opt.cursorline = true
-  vim.cmd([[
-    hi clear CursorLine
-]] )
+  vim.cmd("hi clear CursorLine")
 
+  local c = require("onedark.colors")
+  -- Make VertSplit look not faded
+  vim.api.nvim_set_hl(0, "NvimTreeVertSplit", { fg = c.bg3 })
+
+  -- Make Harpoon transparent
+  vim.api.nvim_set_hl(0, "HarpoonBorder", { bg = nil, fg = c.fg })
+  vim.api.nvim_set_hl(0, "HarpoonWindow", { bg = nil, fg = c.fg })
+
+  -- use default ts parameter color for hlargs
+  vim.cmd([[
+    hi clear Hlargs
+    hi link Hlargs @parameter
+  ]])
 end
 
 local function onedark()
   local theme = require("onedark")
-  theme.setup({theme = "darker"})
+  theme.setup({ transparent = true })
   theme.load()
+
   default()
 end
 
