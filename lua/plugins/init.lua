@@ -40,11 +40,13 @@ return {
 	},
 
 	-- Completion and snippets. Are loaded in Insert mode only.
+  -- ["rafamadriz/friendly-snippets"] = { event = "InsertEnter" },
 	["L3MON4D3/LuaSnip"] = {
 		config = function()
 			require("plugins.config.luasnip")
 		end,
-    -- event = "InsertEnter", -- Causes autocmd in defaults to not work
+    -- after = "friendly-snippets",
+    event = "InsertEnter", -- Causes autocmd in defaults to not work
 	},
 	["hrsh7th/nvim-cmp"] = {
 		config = function()
@@ -101,7 +103,7 @@ return {
 		config = function()
 			require("plugins.config.nvim-tree")
 		end,
-		keys = { "<C-N>", "<C-f>" },
+		keys = { "<C-N>", "<leader>nf" },
 	},
 
 	-- Debugging

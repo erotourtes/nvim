@@ -1,23 +1,44 @@
-local present, nvim_tree = pcall(require, "nvim-tree")
+local nt = require("nvim-tree")
+local nt_api = require("nvim-tree.api")
+local bind = require("plenary.fun").bind
 
-if not present then return end
-
-nvim_tree.setup({
+nt.setup({
   sort_by = "case_sensitive",
   disable_netrw = true,
   hijack_cursor = true,
+  remove_keymaps = true,
+  on_attach = function(buffer)
+    local function set(lhs, rhs)
+      vim.keymap.set("n", lhs, rhs, { buffer = buffer, nowait = true })
+    end
+
+    set("i", "<NOP>")
+    set("c", "<NOP>")
+
+    set("<Tab>", nt_api.node.open.preview)
+    set("<CR>", nt_api.node.open.edit)
+    set("<2-LeftMouse>", nt_api.node.open.edit)
+    set("gk", nt_api.node.navigate.parent)
+    set("gj", nt_api.node.navigate.sibling.last)
+    set("gc", bind(nt_api.tree.collapse_all, true))
+    set("a", nt_api.fs.create)
+    set("d", nt_api.fs.remove)
+    set("r", nt_api.fs.rename)
+    set("x", nt_api.fs.cut)
+    set("p", nt_api.fs.paste)
+    set("cd", nt_api.tree.change_root_to_node)
+    set("<S-R>", nt_api.tree.reload)
+  end,
   view = {
     width = 35,
-    -- height = 35,
     adaptive_size = true,
-    hide_root_folder = false,
+    hide_root_folder = true,
     side = "left",
     signcolumn = "yes",
   },
   renderer = {
     group_empty = true,
-    highlight_git = true, -- TODO: change colors
-    highlight_opened_files = "name",
+    highlight_git = true,
     icons = {
       show = {
         file = true,
@@ -32,7 +53,7 @@ nvim_tree.setup({
     show_on_dirs = true,
   },
   filters = {
-    dotfiles = true,
+    dotfiles = false,
     custom = {},
     exclude = {},
   },
@@ -43,4 +64,4 @@ nvim_tree.setup({
 })
 
 vim.keymap.set({ "n", "i" }, "<C-N>", "<cmd>NvimTreeToggle<CR>")
-vim.keymap.set({ "n", "i", "v"}, "<C-f>", "<cmd>NvimTreeFindFile<CR>")
+vim.keymap.set("n", "<leader>nf", "<cmd>NvimTreeFindFile<CR>")
