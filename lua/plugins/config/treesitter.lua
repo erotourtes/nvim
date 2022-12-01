@@ -1,6 +1,8 @@
 local loaded, treesitter = pcall(require, "nvim-treesitter.configs")
 if not loaded then return end
 
+local ts_config = require("nvim-treesitter.configs")
+
 local function get_buf_size_in_bytes(buf)
   local line_count = vim.api.nvim_buf_line_count(buf)
   return vim.api.nvim_buf_get_offset(buf, line_count)
@@ -36,4 +38,11 @@ local options = {
   },
 }
 
-treesitter.setup(options)
+ts_config.setup(options)
+
+vim.api.nvim_create_autocmd("FileType", {
+  group = vim.api.nvim_create_augroup("NvimTreesitter-handlebars", {}),
+  pattern = "handlebars",
+  callback = function() vim.cmd("set filetype=html") end,
+  desc = "Use html treesitter parser for handlebars",
+})

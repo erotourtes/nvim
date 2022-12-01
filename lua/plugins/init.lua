@@ -10,14 +10,13 @@ return {
 	},
 
 	["nvim-treesitter/nvim-treesitter"] = {
-		setup = function()
-			vim.cmd("PackerLoad nvim-treesitter")
-		end,
-		config = function()
-			require("plugins.config.treesitter")
-		end,
-		run = ":TSUpdate",
-	},
+    config = function() require("plugins.config.treesitter") end,
+    run = function()
+      require("nvim-treesitter").setup()
+      require("plugins.config.treesitter")
+      vim.cmd("TSUpdate")
+    end,
+  },
 	["nvim-treesitter/nvim-treesitter-context"] = {
 		config = function()
 			require("plugins.config.treesitter-context")
