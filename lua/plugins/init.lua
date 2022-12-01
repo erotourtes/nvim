@@ -46,7 +46,7 @@ return {
 			require("plugins.config.luasnip")
 		end,
     -- after = "friendly-snippets",
-    event = "InsertEnter", -- Causes autocmd in defaults to not work
+    -- event = "InsertEnter", -- Causes autocmd in defaults to not work
 	},
 	["hrsh7th/nvim-cmp"] = {
 		config = function()
