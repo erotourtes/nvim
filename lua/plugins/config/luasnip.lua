@@ -6,5 +6,6 @@ local options = {
   history = true,
   updateevents = "TextChanged,TextChangedI",
 }
-
+-- Load friendly-snippets           
+-- require("luasnip.loaders.from_vscode").lazy_load();
 luasnip.config.set_config(options)

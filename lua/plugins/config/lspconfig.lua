@@ -37,6 +37,8 @@ local function on_attach(_, buffer)
   set("<M-p>", vim.diagnostic.goto_prev)
   set("<M-n>", vim.diagnostic.goto_next)
 
+  set("<leader>llr", function() vim.lsp.buf.references() end)
+
   -- set("<Leader>lt", vim.lsp.buf.type_definition)
   -- set("<Leader>ls", vim.lsp.buf.signature_help)
   --

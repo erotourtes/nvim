@@ -1,6 +1,3 @@
-local loaded, treesitter = pcall(require, "nvim-treesitter.configs")
-if not loaded then return end
-
 local ts_config = require("nvim-treesitter.configs")
 
 local function get_buf_size_in_bytes(buf)

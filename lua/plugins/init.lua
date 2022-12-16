@@ -11,11 +11,7 @@ return {
 
 	["nvim-treesitter/nvim-treesitter"] = {
     config = function() require("plugins.config.treesitter") end,
-    run = function()
-      require("nvim-treesitter").setup()
-      require("plugins.config.treesitter")
-      vim.cmd("TSUpdate")
-    end,
+    run = {run = ':TSUpdate'},
   },
 	["nvim-treesitter/nvim-treesitter-context"] = {
 		config = function()
@@ -140,6 +136,13 @@ return {
 	},
 
 	["navarasu/onedark.nvim"] = {},
+
+	["github/copilot.vim"] = {
+		config = function()
+      -- vim.cmd[[:Copilot enable]]
+		end,
+  },
+
 
 	-- ["folke/noice.nvim"] = {
 	-- 	event = "VimEnter",
