@@ -54,4 +54,4 @@ set("n", "<leader>m", function()
 end)
 
 vim.keymap.set("n", "Q", "<nop>")
--- vim.keymap.set("n", "<C-f>", "<cmd>silent !tmux neww tmux-sessionizer<CR>")
+vim.keymap.set("n", "<leader>t", "<cmd>silent !tmux neww ~/.config/nvim/utils/scripts/tmux-sessionizer.bash<CR>")
