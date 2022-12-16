@@ -5,6 +5,7 @@ vim.g.mapleader = " "
 set("v", "J", ":m '>+1<CR>gv=gv")
 set("v", "K", ":m '<-2<CR>gv=gv")
 
+vim.keymap.set("n", "J", "mzJ`z")
 set("n", "n", "nzzzv")
 set("n", "N", "Nzzzv")
 set("n", "<C-d>", "<C-d>zz")
@@ -18,10 +19,14 @@ set("n", "<S-g>", "<S-g>zz")
 
 set({"n", "v"}, "<leader>y", "\"+y")
 
+-- set("x", "<leader>p", "\"_dP")
+
 set({"n", "v"}, "<leader>p", "\"+p")
 set({"n", "v"}, "<leader>d", "\"+d")
 
 set("n", "x", "\"_x")
+
+set({ "n","v" }, "<leader>d", "\"_d")
 
 set("n", "<C-j>", "<cmd>cnext<CR>zz")
 set("n", "<C-k>", "<cmd>cprev<CR>zz")
@@ -48,3 +53,5 @@ set("n", "<leader>m", function()
   vim.cmd('normal! ""p')
 end)
 
+vim.keymap.set("n", "Q", "<nop>")
+-- vim.keymap.set("n", "<C-f>", "<cmd>silent !tmux neww tmux-sessionizer<CR>")

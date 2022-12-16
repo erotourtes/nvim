@@ -1,5 +1,7 @@
 local autocmd = vim.api.nvim_create_autocmd
 
+vim.opt.guicursor = ""
+
 vim.opt.mouse = "a" -- enable mouse support
 vim.opt.relativenumber = true
 vim.opt.signcolumn = "yes"
@@ -23,9 +25,7 @@ vim.opt.ignorecase = true
 
 vim.opt.termguicolors = true
 
-vim.opt.scrolloff = 10
-
-vim.opt.shell = "fish"
+vim.opt.scrolloff = 8
 
 vim.opt.laststatus = 3 -- Set global status line
 
@@ -42,9 +42,9 @@ local function default()
   -- Make VertSplit look not faded
   vim.api.nvim_set_hl(0, "NvimTreeVertSplit", { fg = c.bg3 })
 
-  -- Make Harpoon transparent
-  vim.api.nvim_set_hl(0, "HarpoonBorder", { bg = nil, fg = c.fg })
-  vim.api.nvim_set_hl(0, "HarpoonWindow", { bg = nil, fg = c.fg })
+  -- Make Everything transparent
+  vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
+	vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
 
   -- use default ts parameter color for hlargs
   vim.cmd([[
