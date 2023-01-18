@@ -16,7 +16,6 @@ return {
 		config = function()
 			require("plugins.config.treesitter-context")
 		end,
-		after = "nvim-treesitter",
 	},
 	["m-demare/hlargs.nvim"] = {
 		requires = { "nvim-treesitter/nvim-treesitter" },
@@ -28,7 +27,6 @@ return {
 	},
 
 	["jose-elias-alvarez/null-ls.nvim"] = {
-		after = "nvim-lspconfig",
 		config = function()
 			require("plugins.config.null-ls")
 		end,
@@ -47,13 +45,12 @@ return {
 		config = function()
 			require("plugins.config.cmp")
 		end,
-		after = "LuaSnip",
 	},
-	["saadparwaiz1/cmp_luasnip"] = { after = "nvim-cmp" },
-	["hrsh7th/cmp-nvim-lsp"] = { after = "cmp_luasnip" },
-	["hrsh7th/cmp-nvim-lua"] = { after = "cmp-nvim-lsp" },
-	["hrsh7th/cmp-buffer"] = { after = "cmp-nvim-lua" },
-	["hrsh7th/cmp-path"] = { after = "cmp-buffer" },
+	["saadparwaiz1/cmp_luasnip"] = { },
+	["hrsh7th/cmp-nvim-lsp"] = { },
+	["hrsh7th/cmp-nvim-lua"] = { },
+	["hrsh7th/cmp-buffer"] = { },
+	["hrsh7th/cmp-path"] = { },
 
 	["williamboman/mason.nvim"] = {
 		config = function()
@@ -65,7 +62,6 @@ return {
 		config = function()
 			require("plugins.config.telescope")
 		end,
-		keys = { "<Leader>f" }, -- All Telescope keybindings start with <Leader>f
 	},
 
 	["ThePrimeagen/harpoon"] = {
@@ -84,21 +80,18 @@ return {
 		config = function()
 			require("plugins.config.toggleterm")
 		end,
-		keys = { "<C-T>" },
 	},
 
 	["numToStr/Comment.nvim"] = {
 		config = function()
 			require("Comment").setup()
 		end,
-		keys = { "gc", "gb" },
 	},
 
 	["kyazdani42/nvim-tree.lua"] = {
 		config = function()
 			require("plugins.config.nvim-tree")
 		end,
-		keys = { "<C-N>", "<leader>nf" },
 	},
 
 	-- Debugging
@@ -111,13 +104,11 @@ return {
 		config = function()
 			require("plugins.config.dapui")
 		end,
-		after = { "nvim-dap" },
 	},
 	["theHamsta/nvim-dap-virtual-text"] = {
 		config = function()
 			require("nvim-dap-virtual-text").setup()
 		end,
-		after = { "nvim-dap" },
 	},
 
 	["nvim-lualine/lualine.nvim"] = {
@@ -131,7 +122,6 @@ return {
 		config = function()
 			require("nvim-autopairs").setup()
 		end,
-    event = "InsertEnter"
 	},
 
 	["navarasu/onedark.nvim"] = {},
