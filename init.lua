@@ -7,3 +7,6 @@ vim.api.nvim_create_autocmd("FileType", {
   pattern = { "css", "html", "javascript", "typescript" },
   command = "set shiftwidth=2",
 })
+
+
+require("core.theme")();
