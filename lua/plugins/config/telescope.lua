@@ -1,10 +1,14 @@
 local present, telescope = pcall(require, "telescope")
 
-if not present then return end
+if not present then
+  return
+end
 
 local builtin = require("telescope.builtin")
 
-local function find_nvim_config() builtin.find_files({ cwd = "~/.config/nvim/" }) end
+local function find_nvim_config()
+  builtin.find_files({ cwd = "~/.config/nvim/" })
+end
 
 vim.keymap.set("n", "<Leader>fi", builtin.find_files)
 vim.keymap.set("n", "<Leader>ff", builtin.live_grep)
@@ -42,8 +46,14 @@ local options = {
     prompt_prefix = "",
     selection_caret = "  ",
     file_ignore_patterns = ignore_files,
+    preview = {
+      filesize_hook = function(filepath, bufnr, opts)
+        local max_bytes = 100
+        local cmd = { "head", "-c", max_bytes, filepath }
+        require("telescope.previewers.utils").job_maker(cmd, bufnr, opts)
+      end,
+    },
   },
 }
 
 telescope.setup(options)
-
