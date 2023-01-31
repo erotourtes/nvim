@@ -7,7 +7,7 @@ local formatting = null_ls.builtins.formatting
 local code_actions = null_ls.builtins.code_actions
 
 local sources = {
-  formatting.prettier,
+  formatting.prettierd,
   formatting.stylua,
   formatting.clang_format,
   -- diagnostics.eslint_d,
