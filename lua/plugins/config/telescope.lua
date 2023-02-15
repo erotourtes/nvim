@@ -20,25 +20,17 @@ vim.keymap.set("n", "<Leader>fr", builtin.lsp_references)
 vim.keymap.set("n", "<Leader>fh", builtin.help_tags)
 
 local ignore_files = {
-  -- work
-  "assets/.+%.json",
-  "config/.+%.json",
-  "multimedia/.+%.json",
-  "logs/.+%.json",
-
   -- folders
   "node_modules/",
 
   -- files
-  "snippets/.+%.json$",
-  "^.*%.log$",
+  -- "snippets/.+%.json$",
+  -- "^.*%.log$",
   "^.*%.png$",
   "^.*%.jpg$",
-  "^.*%.wav$",
-  "^.*%.webp$",
-  "^.*%.fnt$",
-  "^.*%.woff?2$",
-  "^.*%.atlas$",
+
+  -- "^.*%.wav$",
+  -- "^.*%.webp$",
 }
 
 local options = {
@@ -46,13 +38,6 @@ local options = {
     prompt_prefix = "",
     selection_caret = "  ",
     file_ignore_patterns = ignore_files,
-    preview = {
-      filesize_hook = function(filepath, bufnr, opts)
-        local max_bytes = 100
-        local cmd = { "head", "-c", max_bytes, filepath }
-        require("telescope.previewers.utils").job_maker(cmd, bufnr, opts)
-      end,
-    },
   },
 }
 

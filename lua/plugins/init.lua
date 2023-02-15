@@ -9,9 +9,11 @@ return {
 	},
 
 	["nvim-treesitter/nvim-treesitter"] = {
-    config = function() require("plugins.config.treesitter") end,
-    run = {run = ':TSUpdate'},
-  },
+		config = function()
+			require("plugins.config.treesitter")
+		end,
+		run = { run = ":TSUpdate" },
+	},
 	["nvim-treesitter/nvim-treesitter-context"] = {
 		config = function()
 			require("plugins.config.treesitter-context")
@@ -21,7 +23,7 @@ return {
 		requires = { "nvim-treesitter/nvim-treesitter" },
 		config = function()
 			require("hlargs").setup({
-				color = "#e06c75",--[[ '#be5046' ]]
+				color = "#e06c75", --[[ '#be5046' ]]
 			})
 		end,
 	},
@@ -33,24 +35,24 @@ return {
 	},
 
 	-- Completion and snippets. Are loaded in Insert mode only.
-  -- ["rafamadriz/friendly-snippets"] = { event = "InsertEnter" },
+	-- ["rafamadriz/friendly-snippets"] = { event = "InsertEnter" },
 	["L3MON4D3/LuaSnip"] = {
 		config = function()
 			require("plugins.config.luasnip")
 		end,
-    -- after = "friendly-snippets",
-    -- event = "InsertEnter", -- Causes autocmd in defaults to not work
+		-- after = "friendly-snippets",
+		-- event = "InsertEnter", -- Causes autocmd in defaults to not work
 	},
 	["hrsh7th/nvim-cmp"] = {
 		config = function()
 			require("plugins.config.cmp")
 		end,
 	},
-	["saadparwaiz1/cmp_luasnip"] = { },
-	["hrsh7th/cmp-nvim-lsp"] = { },
-	["hrsh7th/cmp-nvim-lua"] = { },
-	["hrsh7th/cmp-buffer"] = { },
-	["hrsh7th/cmp-path"] = { },
+	["saadparwaiz1/cmp_luasnip"] = {},
+	["hrsh7th/cmp-nvim-lsp"] = {},
+	["hrsh7th/cmp-nvim-lua"] = {},
+	["hrsh7th/cmp-buffer"] = {},
+	["hrsh7th/cmp-path"] = {},
 
 	["williamboman/mason.nvim"] = {
 		config = function()
@@ -128,14 +130,38 @@ return {
 
 	["github/copilot.vim"] = {
 		config = function()
-      -- vim.cmd[[:Copilot enable]]
+			-- vim.cmd[[:Copilot enable]]
 		end,
-  },
+	},
 
 	["asiryk/auto-hlsearch.nvim"] = {
 		config = function()
-      require("auto-hlsearch").setup()
+			require("auto-hlsearch").setup()
 		end,
-  },
+	},
 
+	["erotourtes/wrapper-machine.nvim"] = {
+		config = function()
+			require("wrapper-machine").setup()
+		end,
+	},
+
+	-- ["~/Documents/projects/lua/wrapper-machine.nvim"] = {
+	-- 	dev = true,
+	-- 	dir = "~/Documents/projects/lua/wrapper-machine.nvim/",
+	-- 	config = function()
+	-- 		require("wrapper-machine").setup({
+	-- 			close_symbols = {
+	-- 				["("] = ")",
+	-- 				["["] = "]",
+	-- 				["{"] = "}",
+	-- 				["<"] = ">",
+	-- 				['"'] = '"',
+	-- 				["'"] = "'",
+	-- 				["`"] = "`",
+	-- 			},
+	-- 			keymap = "<leader>",
+	-- 		})
+	-- 	end,
+	-- },
 }
