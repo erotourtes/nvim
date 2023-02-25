@@ -4,7 +4,7 @@ local servers = {
   "pyright",
   "rust_analyzer",
   "tsserver",
-  "sumneko_lua",
+  "lua_ls",
   "svelte",
   "html",
   "jsonls",
@@ -58,7 +58,7 @@ local config = {
       on_attach(client, buffer)
     end,
   },
-  sumneko_lua = {
+  lua_ls = {
     on_attach = on_attach,
     settings = {
       Lua = {
