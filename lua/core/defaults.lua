@@ -1,5 +1,7 @@
 local autocmd = vim.api.nvim_create_autocmd
 
+DEFAULT_WINBLEND = 0
+
 vim.opt.guicursor = ""
 
 vim.opt.mouse = "a" -- enable mouse support
@@ -26,6 +28,7 @@ vim.opt.ignorecase = true
 vim.opt.termguicolors = true
 
 vim.opt.scrolloff = 8
+vim.wo.winblend = DEFAULT_WINBLEND
 
 vim.opt.laststatus = 3 -- Set global status line
 
