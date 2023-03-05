@@ -26,12 +26,14 @@ local options = {
     "jsdoc",
     "lua",
     "markdown",
+    "markdown_inline",
     "regex",
     "rust",
     "tsx",
     "typescript",
     "vim",
     "fish",
+    "dockerfile",
   },
 }
 

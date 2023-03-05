@@ -24,8 +24,6 @@ set({ "n", "v" }, "<leader>d", '"+d')
 
 set("n", "x", '"_x')
 
-set({ "n", "v" }, "<leader>d", '"_d')
-
 set("n", "<C-j>", "<cmd>cnext<CR>zz")
 set("n", "<C-k>", "<cmd>cprev<CR>zz")
 -- set("n", "<leader>k", "<cmd>lnext<CR>zz")
