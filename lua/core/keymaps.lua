@@ -49,3 +49,5 @@ set("n", "<leader>m", function()
 end)
 
 vim.keymap.set("n", "Q", "<nop>")
+
+vim.keymap.set("n", "<leader>t", ":silent !tmux neww fish -c ts<CR>")

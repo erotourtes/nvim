@@ -12,6 +12,7 @@ local servers = {
 	"cssls",
 	"clangd",
 	"bashls",
+	"texlab",
 }
 
 local function disable_formatting(client)

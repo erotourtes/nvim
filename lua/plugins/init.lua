@@ -128,11 +128,19 @@ return {
 		end,
 	},
 
+	["iurimateus/luasnip-latex-snippets.nvim"] = {
+		config = function()
+			require("luasnip-latex-snippets").setup({ use_treesitter = true })
+		end,
+		dependencies = { "L3MON4D3/LuaSnip", "lervag/vimtex" },
+		ft = { "tex", "markdown", "plaintex" },
+	},
+
 	-- ["kevinhwang91/nvim-ufo"] = {
 	-- 	dependencies = { "kevinhwang91/promise-async" },
- --    config = function()
- --      require("plugins.config.ufo")
- --    end
+	--    config = function()
+	--      require("plugins.config.ufo")
+	--    end
 	-- },
 
 	-- ["folke/noice.nvim"] = {

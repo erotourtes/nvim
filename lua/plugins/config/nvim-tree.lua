@@ -32,12 +32,12 @@ nt.setup({
   view = {
     width = 35,
     adaptive_size = true,
-    hide_root_folder = true,
     side = "left",
     signcolumn = "yes",
   },
   renderer = {
     group_empty = true,
+    root_folder_label = false,
     highlight_git = true,
     icons = {
       show = {

@@ -34,6 +34,7 @@ local options = {
     "vim",
     "fish",
     "dockerfile",
+    "latex"
   },
 }
 
