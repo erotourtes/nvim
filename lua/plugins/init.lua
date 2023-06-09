@@ -135,6 +135,12 @@ return {
 		dependencies = { "L3MON4D3/LuaSnip", "lervag/vimtex" },
 		ft = { "tex", "markdown", "plaintex" },
 	},
+	["peterbjorgensen/sved"] = {
+		config = function()
+			vim.keymap.set("n", "\\lv", ":call SVED_Sync()<CR>")
+		end,
+		ft = { "tex", "markdown", "plaintex" },
+	},
 
 	-- ["kevinhwang91/nvim-ufo"] = {
 	-- 	dependencies = { "kevinhwang91/promise-async" },
