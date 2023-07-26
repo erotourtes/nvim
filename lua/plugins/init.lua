@@ -131,16 +131,33 @@ return {
 	["iurimateus/luasnip-latex-snippets.nvim"] = {
 		config = function()
 			require("luasnip-latex-snippets").setup({ use_treesitter = true })
+
+      -- vim.g.vimtex_compiler_latexmk = {
+      --   executable = 'latexmk',
+      --   options = {
+      --     '-verbose',
+      --     '-file-line-error',
+      --     '-synctex=1',
+      --     '-interaction=nonstopmode',
+      --     '-aux-directory=.aux'
+      --   },
+      --   callback = 1,
+      --   continuous = 1
+      -- }
+
 		end,
 		dependencies = { "L3MON4D3/LuaSnip", "lervag/vimtex" },
-		ft = { "tex", "markdown", "plaintex" },
+		ft = { "tex", "plaintex" },
 	},
+
 	["peterbjorgensen/sved"] = {
 		config = function()
 			vim.keymap.set("n", "\\lv", ":call SVED_Sync()<CR>")
 		end,
-		ft = { "tex", "markdown", "plaintex" },
+		ft = { "tex", "plaintex" },
 	},
+
+	-- ["mg979/vim-visual-multi"] = { },
 
 	-- ["kevinhwang91/nvim-ufo"] = {
 	-- 	dependencies = { "kevinhwang91/promise-async" },
