@@ -29,6 +29,7 @@ vim.opt.termguicolors = true
 
 vim.opt.scrolloff = 8
 vim.wo.winblend = DEFAULT_WINBLEND
+vim.o.pumblend = DEFAULT_WINBLEND
 
 vim.opt.laststatus = 3 -- Set global status line
 
@@ -43,7 +44,8 @@ autocmd("TextYankPost", {
     local mode = vim.api.nvim_get_mode()["mode"]
 
     -- Only highlight in normal mode. not in visual
-    if mode == "no" then vim.highlight.on_yank({
+    if mode == "no" then
+      vim.highlight.on_yank({
         higroup = "Visual",
         timeout = 75,
       })
@@ -56,7 +58,6 @@ autocmd("BufEnter", {
   pattern = "*",
   command = "set fo-=c fo-=r fo-=o",
 })
-
 
 -- Disable some default plugins
 local default_plugins = {
