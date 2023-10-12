@@ -6,8 +6,11 @@ nt.setup({
   sort_by = "case_sensitive",
   disable_netrw = true,
   hijack_cursor = true,
-  remove_keymaps = true,
   on_attach = function(buffer)
+    -- default
+    nt_api.config.mappings.default_on_attach(buffer)
+
+    -- custom
     local function set(lhs, rhs)
       vim.keymap.set("n", lhs, rhs, { buffer = buffer, nowait = true })
     end
