@@ -5,6 +5,8 @@ vim.keymap.set("n", "<leader>gr", ":Gitsigns reset_hunk<cr>")
 vim.keymap.set("n", "<leader>gR", ":Gitsigns reset_buffer<cr>")
 vim.keymap.set("n", "<leader>gn", ":Gitsigns next_hunk<cr>zz")
 vim.keymap.set("n", "<leader>gp", ":Gitsigns prev_hunk<cr>zz")
+vim.keymap.set("n", "<leader>ga", ":Gitsigns stage_hunk<cr>zz")
+vim.keymap.set("n", "<leader>gu", ":Gitsigns undo_stage_hunk<cr>zz")
 
 local icons = require("ui.icons").ui
 
@@ -40,6 +42,7 @@ local options = {
       numhl = "GitSignsChangeNr",
       linehl = "GitSignsChangeLn",
     },
+    untracked = { text = '│' },
   },
   yadm = { enable = false },}
 
