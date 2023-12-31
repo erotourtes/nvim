@@ -1,22 +1,38 @@
-local present = pcall(require, "harpoon")
+local harpoon = require("harpoon")
 
-if not present then return end
+-- REQUIRED
+harpoon:setup({})
+-- REQUIRED
 
-local harpoon_mark = require("harpoon.mark")
-local harpoon_ui = require("harpoon.ui")
-local silent = { silent = true }
-local bind = require("plenary.fun").bind
+vim.keymap.set("n", "<leader>ha", function() harpoon:list():append() end)
+vim.keymap.set("n", "<leader>hm", function() harpoon.ui:toggle_quick_menu(harpoon:list()) end)
 
-local function center_move(fn)
-  return function()
-    fn()
-    vim.cmd("norm! zz")
-  end
+vim.keymap.set("n", "<M-j>", function() harpoon:list():select(1) end)
+vim.keymap.set("n", "<M-k>", function() harpoon:list():select(2) end)
+vim.keymap.set("n", "<M-l>", function() harpoon:list():select(3) end)
+vim.keymap.set("n", "<M-;>", function() harpoon:list():select(4) end)
+
+-- Toggle previous & next buffers stored within Harpoon list
+vim.keymap.set("n", "<C-S-P>", function() harpoon:list():prev() end)
+vim.keymap.set("n", "<C-S-N>", function() harpoon:list():next() end)
+
+-- basic telescope configuration
+local conf = require("telescope.config").values
+local function toggle_telescope(harpoon_files)
+    local file_paths = {}
+    for _, item in ipairs(harpoon_files.items) do
+        table.insert(file_paths, item.value)
+    end
+
+    require("telescope.pickers").new({}, {
+        prompt_title = "Harpoon",
+        finder = require("telescope.finders").new_table({
+            results = file_paths,
+        }),
+        previewer = conf.file_previewer({}),
+        sorter = conf.generic_sorter({}),
+    }):find()
 end
 
-vim.keymap.set("n", "<leader>ha", harpoon_mark.add_file, silent)
-vim.keymap.set("n", "<leader>hm", harpoon_ui.toggle_quick_menu, silent)
-vim.keymap.set("n", "<M-j>", center_move(bind(harpoon_ui.nav_file, 1)), silent)
-vim.keymap.set("n", "<M-k>", center_move(bind(harpoon_ui.nav_file, 2)), silent)
-vim.keymap.set("n", "<M-l>", center_move(bind(harpoon_ui.nav_file, 3)), silent)
-vim.keymap.set("n", "<M-;>", center_move(bind(harpoon_ui.nav_file, 4)), silent)
+vim.keymap.set("n", "<leader>th", function() toggle_telescope(harpoon:list()) end,
+    { desc = "Open harpoon window" })

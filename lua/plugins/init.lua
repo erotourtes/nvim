@@ -63,6 +63,7 @@ return {
 		config = function()
 			require("plugins.config.harpoon")
 		end,
+    branch = "harpoon2",
 	},
 	["lewis6991/gitsigns.nvim"] = {
 		config = function()
@@ -114,6 +115,7 @@ return {
 	["navarasu/onedark.nvim"] = {},
 	["github/copilot.vim"] = {
 		config = function()
+			vim.g.copilot_filetypes = { markdown = true }
 			-- vim.cmd[[:Copilot enable]]
 		end,
 	},
@@ -132,19 +134,18 @@ return {
 		config = function()
 			require("luasnip-latex-snippets").setup({ use_treesitter = true })
 
-      -- vim.g.vimtex_compiler_latexmk = {
-      --   executable = 'latexmk',
-      --   options = {
-      --     '-verbose',
-      --     '-file-line-error',
-      --     '-synctex=1',
-      --     '-interaction=nonstopmode',
-      --     '-aux-directory=.aux'
-      --   },
-      --   callback = 1,
-      --   continuous = 1
-      -- }
-
+			-- vim.g.vimtex_compiler_latexmk = {
+			--   executable = 'latexmk',
+			--   options = {
+			--     '-verbose',
+			--     '-file-line-error',
+			--     '-synctex=1',
+			--     '-interaction=nonstopmode',
+			--     '-aux-directory=.aux'
+			--   },
+			--   callback = 1,
+			--   continuous = 1
+			-- }
 		end,
 		dependencies = { "L3MON4D3/LuaSnip", "lervag/vimtex" },
 		ft = { "tex", "plaintex" },
