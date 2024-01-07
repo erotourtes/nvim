@@ -1,17 +1,15 @@
 local ts_config = require("nvim-treesitter.configs")
 
-local function get_buf_size_in_bytes(buf)
-  local line_count = vim.api.nvim_buf_line_count(buf)
-  return vim.api.nvim_buf_get_offset(buf, line_count)
-end
-
 local options = {
   highlight = {
     enable = true,
     use_languagetree = true,
-    disable = function(_, buf)
-      local buf_size = get_buf_size_in_bytes(buf)
-      return buf_size > 1000000
+    disable = function(lang, buf)
+        local max_filesize = 100 * 1024 -- 100 KB
+        local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
+        if ok and stats and stats.size > max_filesize then
+            return true
+        end
     end,
   },
   indent = { enable = true },
@@ -39,10 +37,3 @@ local options = {
 }
 
 ts_config.setup(options)
-
-vim.api.nvim_create_autocmd("FileType", {
-  group = vim.api.nvim_create_augroup("NvimTreesitter-handlebars", {}),
-  pattern = "handlebars",
-  callback = function() vim.cmd("set filetype=html") end,
-  desc = "Use html treesitter parser for handlebars",
-})

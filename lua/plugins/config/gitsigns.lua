@@ -7,6 +7,8 @@ vim.keymap.set("n", "<leader>gn", ":Gitsigns next_hunk<cr>zz")
 vim.keymap.set("n", "<leader>gp", ":Gitsigns prev_hunk<cr>zz")
 vim.keymap.set("n", "<leader>ga", ":Gitsigns stage_hunk<cr>zz")
 vim.keymap.set("n", "<leader>gu", ":Gitsigns undo_stage_hunk<cr>zz")
+vim.keymap.set("n", "<leader>gP", ":Gitsigns preview_hunk<cr>zz")
+vim.keymap.set("n", "<leader>gd", ":Gitsigns diffthis<cr>")
 
 local icons = require("ui.icons").ui
 
