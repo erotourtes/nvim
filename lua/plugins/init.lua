@@ -63,7 +63,7 @@ return {
 		config = function()
 			require("plugins.config.harpoon")
 		end,
-    branch = "harpoon2",
+		branch = "harpoon2",
 	},
 	["lewis6991/gitsigns.nvim"] = {
 		config = function()
