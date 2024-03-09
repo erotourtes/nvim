@@ -74,6 +74,7 @@ M.ui = { -- icons from https://graphemica.com
   ["U2B95"] = "⮕",
   ["U2716"] = "✖",
   block = "▌",
+  thin_block = "│",
   triangle = "▸",
 }
 

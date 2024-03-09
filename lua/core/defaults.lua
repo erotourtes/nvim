@@ -1,6 +1,6 @@
 local autocmd = vim.api.nvim_create_autocmd
 
-DEFAULT_WINBLEND = 0
+DEFAULT_WINBLEND = 50
 
 vim.opt.guicursor = ""
 

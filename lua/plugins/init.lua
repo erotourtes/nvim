@@ -63,7 +63,6 @@ return {
 		config = function()
 			require("plugins.config.harpoon")
 		end,
-		branch = "harpoon2",
 	},
 	["lewis6991/gitsigns.nvim"] = {
 		config = function()
@@ -80,38 +79,38 @@ return {
 			require("Comment").setup()
 		end,
 	},
-	["kyazdani42/nvim-tree.lua"] = {
-		config = function()
-			require("plugins.config.nvim-tree")
-		end,
-	},
+	-- ["kyazdani42/nvim-tree.lua"] = {
+	-- 	config = function()
+	-- 		require("plugins.config.nvim-tree")
+	-- 	end,
+	-- },
 	-- Debugging
-	["mfussenegger/nvim-dap"] = {
-		config = function()
-			require("plugins.config.dap")
-		end,
-	},
-	["rcarriga/nvim-dap-ui"] = {
-		config = function()
-			require("plugins.config.dapui")
-		end,
-	},
-	["theHamsta/nvim-dap-virtual-text"] = {
-		config = function()
-			require("nvim-dap-virtual-text").setup()
-		end,
-	},
+	-- ["mfussenegger/nvim-dap"] = {
+	-- 	config = function()
+	-- 		require("plugins.config.dap")
+	-- 	end,
+	-- },
+	-- ["rcarriga/nvim-dap-ui"] = {
+	-- 	config = function()
+	-- 		require("plugins.config.dapui")
+	-- 	end,
+	-- },
+	-- ["theHamsta/nvim-dap-virtual-text"] = {
+	-- 	config = function()
+	-- 		require("nvim-dap-virtual-text").setup()
+	-- 	end,
+	-- },
 	["nvim-lualine/lualine.nvim"] = {
 		dependencies = { "kyazdani42/nvim-web-devicons", lazy = true },
 		config = function()
 			require("plugins.config.lualine")
 		end,
 	},
-	["windwp/nvim-autopairs"] = {
-		config = function()
-			require("nvim-autopairs").setup()
-		end,
-	},
+	-- ["windwp/nvim-autopairs"] = {
+	-- 	config = function()
+	-- 		require("nvim-autopairs").setup()
+	-- 	end,
+	-- },
 	["navarasu/onedark.nvim"] = {},
 	["github/copilot.vim"] = {
 		config = function()
@@ -124,11 +123,11 @@ return {
 			require("auto-hlsearch").setup()
 		end,
 	},
-	["erotourtes/wrapper-machine.nvim"] = {
-		config = function()
-			require("wrapper-machine").setup()
-		end,
-	},
+	-- ["erotourtes/wrapper-machine.nvim"] = {
+	--   config = function()
+	--     require("wrapper-machine").setup()
+	--   end,
+	-- },
 
 	["iurimateus/luasnip-latex-snippets.nvim"] = {
 		config = function()
@@ -158,53 +157,138 @@ return {
 		ft = { "tex", "plaintex" },
 	},
 
-	-- ["mg979/vim-visual-multi"] = { },
+	["kevinhwang91/nvim-ufo"] = {
+		dependencies = { "kevinhwang91/promise-async" },
+		config = function()
+			require("plugins.config.ufo")
+		end,
+	},
 
-	-- ["kevinhwang91/nvim-ufo"] = {
-	-- 	dependencies = { "kevinhwang91/promise-async" },
-	--    config = function()
-	--      require("plugins.config.ufo")
-	--    end
-	-- },
+	--[[
+
+------------
+Mini plugins
+------------
+
+]]
+
+	["echasnovski/mini.surround"] = {
+		version = "*",
+		config = function()
+			require("mini.surround").setup()
+		end,
+	},
+	["echasnovski/mini.move"] = {
+		version = "*",
+		config = function()
+			require("mini.move").setup({
+				mappings = {
+					-- Move visual selection in Visual mode
+					left = "H",
+					right = "L",
+					down = "J",
+					up = "K",
+
+					-- Move current line in Normal mode
+					line_left = "",
+					line_right = "",
+					line_down = "",
+					line_up = "",
+				},
+			})
+		end,
+	},
+	["echasnovski/mini.files"] = {
+		version = "*",
+		config = function()
+			require("mini.files").setup({
+				options = {
+					permanent_delete = false,
+				},
+				windows = {
+					preview = true,
+					width_focus = 50,
+					width_nofocus = 15,
+					width_preview = 75,
+				},
+			})
+
+			vim.keymap.set("n", "<C-n>", function()
+				if not MiniFiles.close() then
+					MiniFiles.open()
+				end
+			end)
+
+			vim.api.nvim_create_autocmd("User", {
+				pattern = "MiniFilesWindowOpen",
+				callback = function(args)
+					local win_id = args.data.win_id
+
+					-- Customize window-local settings
+					vim.wo[win_id].winblend = DEFAULT_WINBLEND
+					local config = vim.api.nvim_win_get_config(win_id)
+					config.border, config.title_pos = "rounded", "left"
+					vim.api.nvim_win_set_config(win_id, config)
+				end,
+			})
+
+			local files_set_cwd = function(path)
+				-- Works only if cursor is on the valid file system entry
+				local cur_entry_path = MiniFiles.get_fs_entry().path
+				local cur_directory = vim.fs.dirname(cur_entry_path)
+				vim.fn.chdir(cur_directory)
+			end
+
+			vim.api.nvim_create_autocmd("User", {
+				pattern = "MiniFilesBufferCreate",
+				callback = function(args)
+					vim.keymap.set("n", "g~", files_set_cwd, { buffer = args.data.buf_id })
+				end,
+			})
+		end,
+	},
+	["echasnovski/mini.trailspace"] = {
+		version = "*",
+		config = function()
+			require("mini.trailspace").setup()
+		end,
+	},
+	["echasnovski/mini.clue"] = {
+		version = "*",
+		config = function()
+			require("mini.clue").setup()
+		end,
+	},
 
 	-- ["folke/noice.nvim"] = {
-	-- 	config = function()
-	-- 		require("notify").setup({
-	-- 			stages = "fade",
-	-- 			timeout = 2000,
-	-- 			background_colour = "#1e222a",
-	-- 			icons = {
-	-- 				ERROR = " ",
-	-- 				WARN = " ",
-	-- 				INFO = " ",
-	-- 				DEBUG = " ",
-	-- 				TRACE = " ",
-	-- 			},
-	-- 		})
-	--
-	-- 		require("noice").setup({
-	-- 			lsp = {
-	-- 				-- override markdown rendering so that **cmp** and other plugins use **Treesitter**
-	-- 				override = {
-	-- 					["vim.lsp.util.convert_input_to_markdown_lines"] = true,
-	-- 					["vim.lsp.util.stylize_markdown"] = true,
-	-- 					["cmp.entry.get_documentation"] = true,
-	-- 				},
-	-- 			},
-	-- 			-- you can enable a preset for easier configuration
-	-- 			presets = {
-	-- 				bottom_search = true, -- use a classic bottom cmdline for search
-	-- 				-- command_palette = true, -- position the cmdline and popupmenu together
-	-- 				long_message_to_split = true, -- long messages will be sent to a split
-	-- 				inc_rename = false, -- enables an input dialog for inc-rename.nvim
-	-- 				lsp_doc_border = false, -- add a border to hover docs and signature help
-	-- 			},
-	-- 		})
-	-- 	end,
-	-- 	dependencies = {
-	-- 		"MunifTanjim/nui.nvim",
-	-- 		"rcarriga/nvim-notify",
-	-- 	},
+	--   event = "VeryLazy",
+	--   config = function()
+	--     require("noice").setup({
+	--       cmdline = {
+	--         view = "cmdline",
+	--       },
+	--       lsp = {
+	--         -- override markdown rendering so that **cmp** and other plugins use **Treesitter**
+	--         override = {
+	--           ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
+	--           ["vim.lsp.util.stylize_markdown"] = true,
+	--           ["cmp.entry.get_documentation"] = true,
+	--         },
+	--       },
+	--       -- you can enable a preset for easier configuration
+	--       presets = {
+	--         bottom_search = true,    -- use a classic bottom cmdline for search
+	--         -- command_palette = true, -- position the cmdline and popupmenu together
+	--         long_message_to_split = true, -- long messages will be sent to a split
+	--         inc_rename = false,      -- enables an input dialog for inc-rename.nvim
+	--         lsp_doc_border = false,  -- add a border to hover docs and signature help
+	--       },
+	--     })
+	--   end,
+	--   dependencies = {
+	--     "MunifTanjim/nui.nvim",
+	--     -- "rcarriga/nvim-notify",
+	--   },
 	-- },
 
 	-- ["~/Documents/projects/lua/wrapper-machine.nvim"] = {
