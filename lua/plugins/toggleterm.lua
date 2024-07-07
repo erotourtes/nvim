@@ -1,11 +1,10 @@
-local present, toggleterm = pcall(require, "toggleterm")
-
-if not present then return end
+local loaded, toggleterm = pcall(require, "toggleterm")
+if not loaded then return end
 
 toggleterm.setup({
   open_mapping = [[<c-t>]],
   direction = "horizontal",
-  float_opts = { border = "rounded", winblend = 3 },
+  float_opts = { border = "rounded", winblend = G.const.default_winblend },
   size = function(term)
     if term.direction == "horizontal" then
       return 15

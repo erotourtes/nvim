@@ -1,7 +1,3 @@
-local autocmd = vim.api.nvim_create_autocmd
-
-DEFAULT_WINBLEND = 50
-
 vim.opt.guicursor = ""
 
 vim.opt.mouse = "a" -- enable mouse support
@@ -24,88 +20,101 @@ vim.opt.backup = false
 vim.opt.hlsearch = false
 vim.opt.incsearch = true
 vim.opt.ignorecase = true
+vim.opt.smartcase = true
 
 vim.opt.termguicolors = true
 
 vim.opt.scrolloff = 8
-vim.wo.winblend = DEFAULT_WINBLEND
-vim.o.pumblend = DEFAULT_WINBLEND
+vim.wo.winblend = G.const.default_winblend
+vim.o.pumblend = G.const.default_winblend
 
 vim.opt.laststatus = 3 -- Set global status line
 
--- Add position to jumplist if moving more than 5 lines up or down
-vim.keymap.set("n", "j", [[v:count ? (v:count > 5 ? "m'" . v:count : '') . 'j' : 'j']], { expr = true })
-vim.keymap.set("n", "k", [[v:count ? (v:count > 5 ? "m'" . v:count : '') . 'k' : 'k']], { expr = true })
-
--- Ukrainian keyboard layout (through langmap) https://gist.github.com/bebyx/09307c0d9bdd381add8e9fd623a827d3
---[[
-set langmap=йq,цw,уe,кr,еt,нy,гu,шi,щo,зp,х[,ї],фa,іs,вd,аf,пg,рh,оj,лk,дl,ж\\;,
-  \є',ґ\\,яz,чx,сc,мv,иb,тn,ьm,б\\,,ю.,,ЙQ,ЦW,УE,КR,ЕT,НY,НY,ГU,ШI,ЩO,ЗP,Х{,Ї},ФA,
-  \ІS,ВD,АF,ПG,РH,ОJ,ЛK,ДL,Ж\\:,Є\\",Ґ\|,ЯZ,ЧX,СC,МV,ИB,ТN,ЬM,Б\\<,Ю>,№#
-]]
-
-vim.api.nvim_set_option(
-	"langmap",
-	"йq,цw,уe,кr,еt,нy,гu,шi,щo,зp,х[,ї],фa,іs,вd,аf,пg,рh,оj,лk,дl,ж\\;,є',ґ\\,яz,чx,сc,мv,иb,тn,ьm,б\\,,ю.,,ЙQ,ЦW,УE,КR,ЕT,НY,НY,ГU,ШI,ЩO,ЗP,Х{,Ї},ФA,ІS,ВD,АF,ПG,РH,ОJ,ЛK,ДL,Ж\\:,Є\",Ґ\\|,ЯZ,ЧX,СC,МV,ИB,ТN,ЬM,Б\\<,Ю>,№#"
-)
+local autocmd = vim.api.nvim_create_autocmd
 
 autocmd("TextYankPost", {
-	pattern = "*",
-	group = vim.api.nvim_create_augroup("TextYankPost", { clear = true }),
-	callback = function()
-		local mode = vim.api.nvim_get_mode()["mode"]
+  pattern = "*",
+  group = vim.api.nvim_create_augroup("TextYankPost", { clear = true }),
+  callback = function()
+    local mode = vim.api.nvim_get_mode()["mode"]
 
-		-- Only highlight in normal mode. not in visual
-		if mode == "no" then
-			vim.highlight.on_yank({
-				higroup = "Visual",
-				timeout = 75,
-			})
-		end
-	end,
+    -- Only highlight in normal mode. not in visual
+    if mode == "no" then
+      vim.highlight.on_yank({
+        higroup = "Visual",
+        timeout = 75,
+      })
+    end
+  end,
 })
 
--- Don't auto comment new lines
+local defaults_augroup = vim.api.nvim_create_augroup("defaults", {})
+
 autocmd("BufEnter", {
-	pattern = "*",
-	command = "set fo-=c fo-=r fo-=o",
+  desc = "Don't auto comment new lines",
+  group = defaults_augroup,
+  pattern = "*",
+  command = "set fo-=c fo-=r fo-=o",
+})
+
+autocmd({ "TextChanged", "InsertLeave" }, {
+  desc = "Autosave on leaving insert mode or text change",
+  group = defaults_augroup,
+  pattern = "*",
+  callback = function()
+    local modifiable = vim.bo.modifiable
+    local no_buftype = vim.bo.buftype == ""
+
+    local buf = vim.api.nvim_get_current_buf()
+    local file = vim.api.nvim_buf_get_name(buf)
+    local attached = file ~= ""
+
+    if modifiable and no_buftype and attached then vim.cmd("silent update") end
+  end,
+})
+
+autocmd("FileType", {
+  desc = "Set shiftwidth to 2 for yaml files",
+  group = defaults_augroup,
+  pattern = { "*" },
+  command = "set shiftwidth=2",
 })
 
 -- Disable some default plugins
 local default_plugins = {
-	"2html_plugin",
-	"getscript",
-	"getscriptPlugin",
-	"gzip",
-	"logipat",
-	"netrw",
-	"netrwPlugin",
-	"netrwSettings",
-	"netrwFileHandlers",
-	"matchit",
-	"tar",
-	"tarPlugin",
-	"rrhelper",
-	"spellfile_plugin",
-	"vimball",
-	"vimballPlugin",
-	"zip",
-	"zipPlugin",
-	"python3_provider",
-	"python_provider",
-	"node_provider",
-	"ruby_provider",
-	"perl_provider",
-	"tutor",
-	"rplugin",
-	"syntax",
-	"synmenu",
-	"optwin",
-	"compiler",
-	"bugreport",
-	-- "ftplugin",
+  "2html_plugin",
+  "getscript",
+  "getscriptPlugin",
+  "gzip",
+  "logipat",
+  "netrw",
+  "netrwPlugin",
+  "netrwSettings",
+  "netrwFileHandlers",
+  "matchit",
+  "tar",
+  "tarPlugin",
+  "rrhelper",
+  "spellfile_plugin",
+  "vimball",
+  "vimballPlugin",
+  "zip",
+  "zipPlugin",
+  "python3_provider",
+  "python_provider",
+  "node_provider",
+  "ruby_provider",
+  "perl_provider",
+  "tutor",
+  "rplugin",
+  "syntax",
+  "synmenu",
+  "optwin",
+  "compiler",
+  "bugreport",
+  -- "ftplugin",
 }
 
 for _, plugin in pairs(default_plugins) do
-	vim.g["loaded_" .. plugin] = 1
+  vim.g["loaded_" .. plugin] = 1
 end

@@ -1,6 +1,5 @@
 local ok_cmp, cmp = pcall(require, "cmp")
 local ok_luasnip, luasnip = pcall(require, "luasnip")
-
 if not ok_cmp or not ok_luasnip then return end
 
 local icons = require("ui.icons").lspkind
@@ -62,3 +61,16 @@ local options = {
 }
 
 cmp.setup(options)
+
+-- Snippets --
+require("luasnip.loaders.from_vscode").lazy_load()
+
+vim.api.nvim_set_keymap("i", "<C-l>", "<Plug>luasnip-expand-or-jump", { silent = true })
+vim.api.nvim_set_keymap("s", "<C-l>", "<Plug>luasnip-expand-or-jump", { silent = true })
+
+local options = {
+  history = true,
+  updateevents = "TextChanged,TextChangedI",
+}
+
+luasnip.config.set_config(options)

@@ -1,10 +1,7 @@
-local set = vim.keymap.set
 vim.g.mapleader = " "
 
--- set("v", "J", ":m '>+1<CR>gv=gv")
--- set("v", "K", ":m '<-2<CR>gv=gv")
-
-vim.keymap.set("n", "J", "mzJ`z")
+local set = vim.keymap.set
+set("n", "J", "mzJ`z")
 set("n", "n", "nzzzv")
 set("n", "N", "Nzzzv")
 set("n", "<C-d>", "<C-d>zz")
@@ -16,18 +13,12 @@ set("n", "<C-b>", "<C-b>zz")
 set("n", "<S-g>", "<S-g>zz")
 
 set({ "n", "v" }, "<leader>y", '"+y')
-
--- set("x", "<leader>p", "\"_dP")
-
 set({ "n", "v" }, "<leader>p", '"+p')
 set({ "n", "v" }, "<leader>d", '"+d')
-
 set("n", "x", '"_x')
 
 set("n", "<C-j>", "<cmd>cnext<CR>zz")
 set("n", "<C-k>", "<cmd>cprev<CR>zz")
--- set("n", "<leader>k", "<cmd>lnext<CR>zz")
--- set("n", "<leader>j", "<cmd>lprev<CR>zz")
 
 set("n", "tn", "<cmd>tabnew<CR>") -- Create new tab
 set({ "n", "i" }, "<C-L>", "<cmd>tabnext<CR>") -- Switch to right tab
@@ -35,19 +26,31 @@ set({ "n", "i" }, "<C-H>", "<cmd>tabprev<CR>") -- Switch to left tab
 set("n", "tc", "<cmd>tabclose<CR>") -- Close current tab
 set("n", "tac", "<cmd>tabo<CR>") -- Close all tabs
 
-set("n", "sp", ":vsplit<Return><C-w>w")
+-- set("n", "sp", ":vsplit<Return><C-w>w")
 set("n", "<leader>h", "<C-w>h")
 set("n", "<leader>l", "<C-w>l")
 set("n", "<leader>j", "<C-w>j")
 set("n", "<leader>k", "<C-w>k")
 
 set("n", "<leader>m", function()
-	local text = vim.fn.getreg('"')
-	vim.fn.setreg('"', text:match("^%s*(.-)%s*$"))
-
-	vim.cmd('normal! ""p')
+  local text = vim.fn.getreg('"')
+  vim.fn.setreg('"', text:match("^%s*(.-)%s*$"))
+  vim.cmd('normal! ""p')
 end)
 
-vim.keymap.set("n", "Q", "<nop>")
+set("n", "Q", "<nop>")
+set("n", "<leader>t", ":silent !tmux neww fish -c ts<CR>")
 
-vim.keymap.set("n", "<leader>t", ":silent !tmux neww fish -c ts<CR>")
+-- Add position to jumplist if moving more than 5 lines up or down
+set(
+  "n",
+  "j",
+  [[v:count ? (v:count > 5 ? "m'" . v:count : '') . 'j' : 'j']],
+  { expr = true }
+)
+set(
+  "n",
+  "k",
+  [[v:count ? (v:count > 5 ? "m'" . v:count : '') . 'k' : 'k']],
+  { expr = true }
+)
