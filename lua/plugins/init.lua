@@ -16,7 +16,7 @@ end
 local plugins = {
   "nvim-lua/plenary.nvim",
   "kyazdani42/nvim-web-devicons",
-  "njavarasu/onedark.nvim",
+  "navarasu/onedark.nvim",
   "sainnhe/everforest",
   {
     "neovim/nvim-lspconfig",

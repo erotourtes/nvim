@@ -29,6 +29,7 @@ ts_config.setup({
     "tsx",
     "typescript",
     "vim",
+    "vimdoc",
     "fish",
     "dockerfile",
     "latex",
