@@ -85,10 +85,10 @@ local plugins = {
     "github/copilot.vim",
     config = function() vim.g.copilot_filetypes = { markdown = true } end,
   },
-  -- {
-  --   "asiryk/auto-hlsearch.nvim",
-  --   config = function() require("auto-hlsearch").setup() end,
-  -- },
+  {
+    "asiryk/auto-hlsearch.nvim",
+    config = function() require("auto-hlsearch").setup() end,
+  },
   {
     "kevinhwang91/nvim-ufo",
     dependencies = { "kevinhwang91/promise-async" },
