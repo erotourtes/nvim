@@ -33,6 +33,8 @@ local plugins = {
     dependencies = {
       "nvim-treesitter/nvim-treesitter-context",
       "nvim-treesitter/nvim-treesitter-textobjects",
+      "JoosepAlviste/nvim-ts-context-commentstring",
+      "RRethy/nvim-treesitter-textsubjects",
     },
     config = function() require("plugins.treesitter") end,
     run = { run = ":TSUpdate" },
@@ -46,9 +48,13 @@ local plugins = {
       "hrsh7th/cmp-nvim-lua",
       "hrsh7th/cmp-buffer",
       "hrsh7th/cmp-path",
-      "L3MON4D3/LuaSnip",
+      -- "rafamadriz/friendly-snippets",
     },
     config = function() require("plugins.cmp") end,
+  },
+  {
+    "L3MON4D3/LuaSnip",
+    build = "make install_jsregexp",
   },
   {
     "nvim-telescope/telescope.nvim",
@@ -63,6 +69,7 @@ local plugins = {
   },
   {
     "ThePrimeagen/harpoon",
+    branch = "harpoon2",
     config = function() require("plugins.harpoon") end,
   },
   {
@@ -75,7 +82,11 @@ local plugins = {
   },
   {
     "numToStr/Comment.nvim",
-    config = function() require("Comment").setup() end,
+    config = function()
+      require("Comment").setup({
+        pre_hook = require("ts_context_commentstring.integrations.comment_nvim").create_pre_hook(),
+      })
+    end,
   },
   {
     "nvim-lualine/lualine.nvim",
@@ -83,7 +94,12 @@ local plugins = {
   },
   {
     "github/copilot.vim",
-    config = function() vim.g.copilot_filetypes = { markdown = true } end,
+    config = function()
+      vim.g.copilot_filetypes = { markdown = true }
+      vim.g.copilot_no_tab_map = true
+      vim.g.copilot_assume_mapped = true
+      vim.g.copilot_tab_fallback = ""
+    end,
   },
   {
     "asiryk/auto-hlsearch.nvim",
@@ -107,42 +123,123 @@ local plugins = {
   },
   {
     "ggandor/leap.nvim",
-    config = function() require("leap").create_default_mappings() end,
+    config = function()
+      -- require("leap").create_default_mappings()
+      vim.keymap.set({ "n", "x", "o" }, "s", "<Plug>(leap-forward)")
+      vim.keymap.set({ "n", "x", "o" }, "S", "<Plug>(leap-backward)")
+      vim.keymap.set({ "n", "x", "o" }, "gs", "<Plug>(leap-from-window)")
+    end,
+  },
+  {
+    "folke/trouble.nvim",
+    config = function() require("plugins.trouble") end,
+  },
+  "MunifTanjim/nui.nvim",
+  {
+    "folke/noice.nvim",
+    config = function() require("plugins.noice") end,
+  },
+  {
+    "kylechui/nvim-surround",
+    version = "*", -- Use for stability; omit to use `main` branch for the latest features
+    event = "VeryLazy",
+    config = true,
+  },
+  -- ╭─────────────────────────────────────────────────────────╮
+  -- │ Typescript                                              │
+  -- ╰─────────────────────────────────────────────────────────╯
+  {
+    "windwp/nvim-ts-autotag",
+    config = function() require("nvim-ts-autotag").setup() end,
+  },
+  {
+    "razak17/tailwind-fold.nvim",
+    opts = {
+      min_chars = 50,
+    },
+    dependencies = { "nvim-treesitter/nvim-treesitter" },
+    ft = { "html", "svelte", "astro", "vue", "typescriptreact" },
+  },
+  {
+    "NvChad/nvim-colorizer.lua",
+    config = function()
+      require("colorizer").setup({
+        filetypes = {
+          "*",
+          cmp_docs = { always_update = true },
+          cmp_menu = { always_update = true },
+        },
+        user_default_options = {
+          css = true,
+          mode = "background",
+          tailwind = true, -- Enable tailwind colors
+        },
+      })
+    end,
+  },
+  {
+    "pmizio/typescript-tools.nvim",
+    event = { "BufReadPre", "BufNewFile" },
+    ft = { "typescript", "typescriptreact" },
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "neovim/nvim-lspconfig",
+    },
+    config = function() require("plugins.typescript-tools") end,
+  },
+  {
+    "axelvc/template-string.nvim",
+    event = "InsertEnter",
+    ft = {
+      "javascript",
+      "typescript",
+      "javascriptreact",
+      "typescriptreact",
+    },
+    config = true, -- run require("template-string").setup()
+  },
+  "windwp/nvim-ts-autotag",
+  -- ╭─────────────────────────────────────────────────────────╮
+  -- │ DAP                                                     │
+  -- ╰─────────────────────────────────────────────────────────╯
+  {
+    "mfussenegger/nvim-dap",
+    config = function() require("plugins.dap") end,
+    keys = {
+      "<Leader>da",
+      "<Leader>db",
+      "<Leader>dc",
+      "<Leader>dd",
+      "<Leader>dh",
+      "<Leader>di",
+      "<Leader>do",
+      "<Leader>dO",
+      "<Leader>dt",
+    },
+    dependencies = {
+      "theHamsta/nvim-dap-virtual-text",
+      "rcarriga/nvim-dap-ui",
+      "nvim-neotest/nvim-nio",
+      {
+        "microsoft/vscode-js-debug",
+        build = "npm install --legacy-peer-deps && npx gulp vsDebugServerBundle && mv dist out",
+      },
+      "mxsdev/nvim-dap-vscode-js",
+    },
+  },
+  {
+    "LiadOz/nvim-dap-repl-highlights",
+    config = true,
+    dependencies = {
+      "mfussenegger/nvim-dap",
+      "nvim-treesitter/nvim-treesitter",
+    },
+    build = function()
+      if not require("nvim-treesitter.parsers").has_parser("dap_repl") then
+        vim.cmd(":TSInstall dap_repl")
+      end
+    end,
   },
 }
 
 require("lazy").setup(plugins)
-
--- {
---   "iurimateus/luasnip-latex-snippets.nvim",
---   config = function()
---     require("luasnip-latex-snippets").setup({ use_treesitter = true })
-
---     -- vim.g.vimtex_compiler_latexmk = {
---     --   executable = 'latexmk',
---     --   options = {
---     --     '-verbose',
---     --     '-file-line-error',
---     --     '-synctex=1',
---     --     '-interaction=nonstopmode',
---     --     '-aux-directory=.aux'
---     --   },
---     --   callback = 1,
---     --   continuous = 1
---     -- }
---   end,
---   dependencies = { "L3MON4D3/LuaSnip", "lervag/vimtex" },
---   ft = { "tex", "plaintex" },
--- },
--- {
---   "peterbjorgensen/sved",
---   config = function()
---     vim.keymap.set("n", "\\lv", ":call SVED_Sync()<CR>")
---   end,
---   ft = { "tex", "plaintex" },
--- },
-
--- {
---   "m-demare/hlargs.nvim",
---   config = function() require("hlargs").setup({ color = "#e06c75" }) end,
--- },

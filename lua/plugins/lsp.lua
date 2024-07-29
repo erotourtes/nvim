@@ -12,8 +12,10 @@ local function on_attach(_, buffer)
   set("gd", vim.lsp.buf.definition, "Go to definition")
   set("gD", vim.lsp.buf.declaration, "Go to declaration")
   set("gl", vim.lsp.buf.implementation, "Go to implementation")
-
-  set("<S-K>", vim.lsp.buf.hover, "Show information under cursor")
+  set("<S-K>", function()
+    local winid = require("ufo").peekFoldedLinesUnderCursor()
+    if not winid then vim.lsp.buf.hover() end
+  end, "Show information under cursor")
   set("<Leader>lf", format, "Format buffer")
   set("<Leader>lr", vim.lsp.buf.rename, "Rename symbol")
   set("<Leader>la", vim.lsp.buf.code_action, "Available actions")
@@ -46,7 +48,7 @@ local lsps = {
   },
   "pyright",
   "rust_analyzer",
-  "tsserver",
+  -- "tsserver",
   "lua_ls",
   "svelte",
   "html",
@@ -59,6 +61,8 @@ local lsps = {
   "gopls",
   "dockerls",
   "docker_compose_language_service",
+  "tailwindcss-language-server",
+  "emmet_language_server",
 }
 
 require("mason-tool-installer").setup({
@@ -70,6 +74,10 @@ require("mason-tool-installer").setup({
     "clang-format",
     "texlab",
     -- dap --
+    {
+      "js-debug-adapter",
+      version = "v1.76.1",
+    },
     "cpptools",
   }, G.utils.tbl_name(lsps)),
 })
@@ -81,6 +89,9 @@ local default_config = {
 
 G.utils.tbl_each(lsps, function(server_name, server_config)
   local config = vim.tbl_extend("force", default_config, server_config)
+
+  if server_name == "tailwindcss-language-server" then server_name = "tailwindcss" end
+
   lspconfig[server_name].setup(config)
 end)
 

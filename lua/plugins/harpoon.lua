@@ -1,16 +1,15 @@
 local loaded, harpoon = pcall(require, "harpoon")
 if not loaded then return end
 
-harpoon:setup({})
+harpoon:setup({
+  settings = {
+    save_on_toggle = true,
+  }
+})
 
 local set = G.utils.set
 
-set(
-  "n",
-  "<leader>ha",
-  function() harpoon:list():append() end,
-  "Add current file to Harpoon"
-)
+set("n", "<leader>ha", function() harpoon:list():add() end, "Add current file to Harpoon")
 set(
   "n",
   "<leader>hm",

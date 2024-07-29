@@ -44,12 +44,41 @@ local options = {
     ["<C-n>"] = cmp.mapping.select_next_item(),
     ["<C-d>"] = cmp.mapping.scroll_docs(4),
     ["<C-u>"] = cmp.mapping.scroll_docs(-4),
+    ["<Tab>"] = cmp.mapping(function(fallback)
+      local copilot_keys = vim.fn["copilot#Accept"]()
+      if cmp.visible() then
+        if luasnip.expandable() then
+          luasnip.expand()
+        else
+          cmp.confirm({
+            behavior = cmp.ConfirmBehavior.Insert,
+            select = true,
+          })
+        end
+      elseif copilot_keys ~= "" and type(copilot_keys) == "string" then
+        vim.api.nvim_feedkeys(copilot_keys, "i", true)
+      else
+        fallback()
+      end
+    end, {
+      "i",
+      "s",
+    }),
     ["<C-Space>"] = cmp.mapping.complete(),
     ["<C-e>"] = cmp.mapping.close(),
-    ["<CR>"] = cmp.mapping.confirm({
-      behavior = cmp.ConfirmBehavior.Insert,
-      select = false, -- Enter only explicitly selected item
-    }),
+    ["<CR>"] = cmp.mapping(function(fallback)
+      if cmp.visible() then
+        if luasnip.expandable() then
+          luasnip.expand()
+        else
+          cmp.confirm({
+            select = true,
+          })
+        end
+      else
+        fallback()
+      end
+    end),
   },
   sources = {
     { name = "nvim_lsp" },
@@ -65,12 +94,24 @@ cmp.setup(options)
 -- Snippets --
 require("luasnip.loaders.from_vscode").lazy_load()
 
-vim.api.nvim_set_keymap("i", "<C-l>", "<Plug>luasnip-expand-or-jump", { silent = true })
-vim.api.nvim_set_keymap("s", "<C-l>", "<Plug>luasnip-expand-or-jump", { silent = true })
-
-local options = {
+local luasnip_options = {
   history = true,
   updateevents = "TextChanged,TextChangedI",
 }
 
-luasnip.config.set_config(options)
+luasnip.config.set_config(luasnip_options)
+
+for _, ft_path in ipairs(vim.api.nvim_get_runtime_file("lua/snippets/*.lua", true)) do
+  loadfile(ft_path)()
+end
+
+vim.keymap.set(
+  { "i", "s" },
+  "<C-l>",
+  function() luasnip.expand_or_jump() end,
+  { silent = true }
+)
+vim.keymap.set({ "i", "s" }, "<C-h>", function() luasnip.jump(-1) end, { silent = true })
+vim.keymap.set({ "i", "s" }, "<C-e>", function()
+  if luasnip.choice_active() then luasnip.change_choice(1) end
+end, { silent = true })

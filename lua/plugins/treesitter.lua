@@ -53,6 +53,13 @@ ts_config.setup({
       },
     },
   },
+  textsubjects = {
+    enable = true,
+    prev_selection = ",",
+    keymaps = {
+      ["."] = "textsubjects-smart",
+    },
+  },
 })
 
 require("treesitter-context").setup({
