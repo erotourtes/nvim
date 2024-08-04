@@ -14,6 +14,7 @@ set("n", "<Leader>fc", find_nvim_config, "Find nvim config")
 set("n", "<Leader>fm", builtin.marks, "Find marks")
 set("n", "<Leader>fr", builtin.lsp_references, "Find references")
 set("n", "<Leader>fh", builtin.help_tags, "Find help tags")
+set("n", "<Leader>gb", builtin.git_branches, "Git branches")
 
 local ignore_files = {
   "node_modules/",

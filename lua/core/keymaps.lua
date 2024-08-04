@@ -12,8 +12,8 @@ set("n", "<C-f>", "<C-f>zz")
 set("n", "<C-b>", "<C-b>zz")
 set("n", "<S-g>", "<S-g>zz")
 
-set("v", "J", ":m '>+1<CR>gv=gv")
-set("v", "K", ":m '<-2<CR>gv=gv")
+set("v", "J", ":m '>+1<CR>gv=gv", { silent = true })
+set("v", "K", ":m '<-2<CR>gv=gv", { silent = true })
 
 set({ "n", "v" }, "<leader>y", '"+y')
 set({ "n", "v" }, "<leader>p", '"+p')
@@ -43,7 +43,7 @@ set("n", "tac", "<cmd>tabo<CR>") -- Close all tabs
 -- end)
 
 set("n", "Q", "<nop>")
-set("n", "<leader>t", ":silent !tmux neww fish -c ts<CR>")
+-- set("n", "<leader>t", ":silent !tmux neww fish -c ts<CR>")
 
 -- Add position to jumplist if moving more than 5 lines up or down
 set(
@@ -68,3 +68,7 @@ set("n", "<leader>q", function()
     vim.cmd("cclose")
   end
 end)
+
+
+set("n", "<leader>gg", ":Neogit<CR>", { silent = true })
+

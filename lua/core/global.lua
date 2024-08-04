@@ -11,7 +11,7 @@ local utils = {}
 G.utils = utils
 
 utils.set = function(mode, keymap, action, desc)
-  vim.keymap.set(mode, keymap, action, { desc = desc })
+  vim.keymap.set(mode, keymap, action, { desc = desc, silent = true })
 end
 
 utils.tbl_name = function(tbl)

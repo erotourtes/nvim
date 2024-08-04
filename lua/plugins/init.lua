@@ -73,10 +73,6 @@ local plugins = {
     config = function() require("plugins.harpoon") end,
   },
   {
-    "lewis6991/gitsigns.nvim",
-    config = function() require("plugins.gitsigns") end,
-  },
-  {
     "akinsho/toggleterm.nvim",
     config = function() require("plugins.toggleterm") end,
   },
@@ -143,6 +139,21 @@ local plugins = {
     "kylechui/nvim-surround",
     version = "*", -- Use for stability; omit to use `main` branch for the latest features
     event = "VeryLazy",
+    config = true,
+  },
+  "kevinhwang91/nvim-bqf",
+  -- ╭─────────────────────────────────────────────────────────╮
+  -- │ Git                                                     │
+  -- ╰─────────────────────────────────────────────────────────╯
+  {
+    "lewis6991/gitsigns.nvim",
+    config = function() require("plugins.gitsigns") end,
+  },
+  {
+    "NeogitOrg/neogit",
+    dependencies = {
+      "sindrets/diffview.nvim"
+    },
     config = true,
   },
   -- ╭─────────────────────────────────────────────────────────╮
@@ -243,3 +254,4 @@ local plugins = {
 }
 
 require("lazy").setup(plugins)
+
