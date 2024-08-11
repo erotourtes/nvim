@@ -30,6 +30,8 @@ vim.o.pumblend = G.const.default_winblend
 
 vim.opt.laststatus = 3 -- Set global status line
 
+vim.opt.fillchars:append { diff = "╱" }
+
 local autocmd = vim.api.nvim_create_autocmd
 
 autocmd("TextYankPost", {

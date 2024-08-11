@@ -14,11 +14,13 @@ end
 ls.add_snippets("all", {
   s(
     "st",
-    fmt([[const [{}, set{}] = useState();]], {
+    fmt([[const [{}, set{}] = useState({});]], {
       i(1, "state"),
       Cap(1),
+      i(2),
     })
   ),
+  s("sout", fmt([[console.log({});]], { i(1) })),
 })
 
 -- -- Get a list of  the property names given an `interface_declaration`

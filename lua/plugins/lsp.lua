@@ -74,10 +74,10 @@ require("mason-tool-installer").setup({
     "clang-format",
     "texlab",
     -- dap --
-    {
-      "js-debug-adapter",
-      version = "v1.76.1",
-    },
+    -- {
+    --   "js-debug-adapter",
+    --   version = "v1.76.1",
+    -- },
     "cpptools",
   }, G.utils.tbl_name(lsps)),
 })

@@ -38,6 +38,7 @@ ts_config.setup({
     "toml",
     "sql",
     "c",
+    "dap_repl",
   },
   textobjects = {
     select = {

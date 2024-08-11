@@ -31,6 +31,8 @@ set({ "n", "i" }, "<C-H>", "<cmd>tabprev<CR>") -- Switch to left tab
 set("n", "tc", "<cmd>tabclose<CR>") -- Close current tab
 set("n", "tac", "<cmd>tabo<CR>") -- Close all tabs
 
+set("v", "v", "<esc>")
+
 -- -- set("n", "sp", ":vsplit<Return><C-w>w")
 -- set("n", "<leader>h", "<C-w>h")
 -- set("n", "<leader>l", "<C-w>l")

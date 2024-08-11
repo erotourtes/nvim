@@ -71,22 +71,31 @@ dapui.setup({
     {
       elements = {
         -- Elements can be strings or table with id and size keys.
-        { id = "scopes", size = 0.25 },
-        "breakpoints",
-        "stacks",
-        "watches",
+        { id = "scopes", size = 0.2 },
+        {
+          id = "repl",
+          size = 0.3,
+        },
+        {
+          id = "watches",
+          size = 0.4,
+        },
+        {
+          id = "breakpoints",
+          size = 0.1,
+        },
       },
       size = 40, -- 40 columns
       position = "left",
     },
-    {
-      elements = {
-        "repl",
-        "console",
-      },
-      size = 0.25, -- 25% of total lines
-      position = "bottom",
-    },
+    -- {
+    --   elements = {
+    --     "repl",
+    --     "console",
+    --   },
+    --   size = 0.25, -- 25% of total lines
+    --   position = "bottom",
+    -- },
   },
   floating = {
     max_height = nil, -- These can be integers or a float between 0 and 1.
@@ -168,14 +177,18 @@ set(
 -- VSCODE JS (Node/Chrome/Terminal/Jest)
 
 require("dap-vscode-js").setup({
-  debugger_path = vim.fn.stdpath("data") .. "/mason/packages/js-debug-adapter",
-  debugger_cmd = { "js-debug-adapter" },
+  -- debugger_path = vim.fn.stdpath("data") .. "/mason/packages/js-debug-adapter",
+  debugger_path = require("lazy.core.config").defaults.root .. "/vscode-js-debug",
+  -- debugger_cmd = { "js-debug-adapter" },
+  debugger_cmd = nil,
   adapters = {
     "pwa-node",
     "pwa-chrome",
     "pwa-msedge",
     "node-terminal",
     "pwa-extensionHost",
+    "chrome",
+    "node",
   },
 })
 
@@ -199,6 +212,7 @@ set("n", "<leader>da", function()
       ["node"] = exts,
       ["chrome"] = exts,
       ["pwd-chrome"] = exts,
+      ["extensionHost"] = exts,
     })
   end
   dap.continue()
@@ -322,6 +336,10 @@ for _, ext in ipairs(exts) do
       protocol = "inspector",
       port = function() return vim.fn.input("Select port: ", 9222) end,
       webRoot = "${workspaceFolder}",
+      skipFiles = {
+        "**/node_modules/**/*",
+        "**/@vite/*",
+      },
     },
     {
       type = "pwa-node",
@@ -333,3 +351,34 @@ for _, ext in ipairs(exts) do
     },
   }
 end
+
+vim.api.nvim_set_hl(0, "DapBreakpoint", { ctermbg = 0, bg = "#31353f" })
+vim.api.nvim_set_hl(0, "DapLogPoint", { ctermbg = 0, fg = "#61afef", bg = "#31353f" })
+vim.api.nvim_set_hl(0, "DapStopped", { ctermbg = 0, fg = "#98c379", bg = "#31353f" })
+
+vim.fn.sign_define("DapBreakpoint", {
+  text = "",
+  texthl = "DapBreakpoint",
+  linehl = "DapBreakpoint",
+  numhl = "DapBreakpoint",
+})
+vim.fn.sign_define("DapBreakpointCondition", {
+  text = "ﳁ",
+  texthl = "DapBreakpoint",
+  linehl = "DapBreakpoint",
+  numhl = "DapBreakpoint",
+})
+vim.fn.sign_define("DapBreakpointRejected", {
+  text = "",
+  texthl = "DapBreakpoint",
+  linehl = "DapBreakpoint",
+  numhl = "DapBreakpoint",
+})
+vim.fn.sign_define(
+  "DapLogPoint",
+  { text = "", texthl = "DapLogPoint", linehl = "DapLogPoint", numhl = "DapLogPoint" }
+)
+vim.fn.sign_define(
+  "DapStopped",
+  { text = "", texthl = "DapStopped", linehl = "DapStopped", numhl = "DapStopped" }
+)

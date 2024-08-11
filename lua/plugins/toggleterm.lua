@@ -3,7 +3,7 @@ if not loaded then return end
 
 toggleterm.setup({
   open_mapping = [[<c-t>]],
-  direction = "horizontal",
+  direction = "float",
   float_opts = { border = "rounded", winblend = G.const.default_winblend },
   size = function(term)
     if term.direction == "horizontal" then
