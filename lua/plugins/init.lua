@@ -1,17 +1,26 @@
-do -- download lazy if not exists
-  local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
-  if not vim.loop.fs_stat(lazypath) then
-    vim.fn.system({
-      "git",
-      "clone",
-      "--filter=blob:none",
-      "https://github.com/folke/lazy.nvim.git",
-      "--branch=stable", -- latest stable release
-      lazypath,
-    })
+-- Bootstrap lazy.nvim
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+if not (vim.uv or vim.loop).fs_stat(lazypath) then
+  local lazyrepo = "https://github.com/folke/lazy.nvim.git"
+  local out = vim.fn.system({
+    "git",
+    "clone",
+    "--filter=blob:none",
+    "--branch=stable",
+    lazyrepo,
+    lazypath,
+  })
+  if vim.v.shell_error ~= 0 then
+    vim.api.nvim_echo({
+      { "Failed to clone lazy.nvim:\n", "ErrorMsg" },
+      { out, "WarningMsg" },
+      { "\nPress any key to exit..." },
+    }, true, {})
+    vim.fn.getchar()
+    os.exit(1)
   end
-  vim.opt.rtp:prepend(lazypath)
 end
+vim.opt.rtp:prepend(lazypath)
 
 local plugins = {
   "nvim-lua/plenary.nvim",
@@ -21,8 +30,8 @@ local plugins = {
   {
     "neovim/nvim-lspconfig",
     dependencies = {
-      "williamboman/mason.nvim",
-      "williamboman/mason-lspconfig.nvim",
+      { "mason-org/mason.nvim" },
+      { "mason-org/mason-lspconfig.nvim" },
       "WhoIsSethDaniel/mason-tool-installer.nvim",
       "stevearc/conform.nvim",
     },
@@ -92,15 +101,15 @@ local plugins = {
     "nvim-lualine/lualine.nvim",
     config = function() require("plugins.lualine") end,
   },
-  {
-    "github/copilot.vim",
-    config = function()
-      vim.g.copilot_filetypes = { markdown = true }
-      vim.g.copilot_no_tab_map = true
-      vim.g.copilot_assume_mapped = true
-      vim.g.copilot_tab_fallback = ""
-    end,
-  },
+  -- {
+  --   "github/copilot.vim",
+  --   config = function()
+  --     vim.g.copilot_filetypes = { markdown = true }
+  --     vim.g.copilot_no_tab_map = true
+  --     vim.g.copilot_assume_mapped = true
+  --     vim.g.copilot_tab_fallback = ""
+  --   end,
+  -- },
   {
     "asiryk/auto-hlsearch.nvim",
     config = function() require("auto-hlsearch").setup() end,
@@ -112,13 +121,16 @@ local plugins = {
   },
   {
     "echasnovski/mini.nvim",
+    version = "*",
     config = function() require("plugins.mini") end,
   },
   {
     "lukas-reineke/indent-blankline.nvim",
     main = "ibl",
     opts = {
-      scope = { enabled = false },
+      scope = {
+        show_start = false,
+      },
     },
   },
   {
@@ -168,11 +180,11 @@ local plugins = {
       },
     },
   },
-  "MunifTanjim/nui.nvim",
-  {
-    "folke/noice.nvim",
-    config = function() require("plugins.noice") end,
-  },
+  -- "MunifTanjim/nui.nvim",
+  -- {
+  --   "folke/noice.nvim",
+  --   config = function() require("plugins.noice") end,
+  -- },
   {
     "kylechui/nvim-surround",
     version = "*", -- Use for stability; omit to use `main` branch for the latest features
@@ -285,6 +297,39 @@ local plugins = {
         build = "npm install --legacy-peer-deps && npx gulp vsDebugServerBundle && mv dist out",
       },
       "mxsdev/nvim-dap-vscode-js",
+    },
+  },
+  ---@type LazySpec
+  {
+    "mikavilpas/yazi.nvim",
+    event = "VeryLazy",
+    keys = {
+      {
+        "<leader>nc",
+        "<cmd>Yazi<cr>",
+        desc = "Open yazi at the current file",
+      },
+      {
+        -- Open in the current working directory
+        "<leader>nd",
+        "<cmd>Yazi cwd<cr>",
+        desc = "Open the file manager in nvim's working directory",
+      },
+      {
+        -- NOTE: this requires a version of yazi that includes
+        -- https://github.com/sxyazi/yazi/pull/1305 from 2024-07-18
+        "<c-n>",
+        "<cmd>Yazi toggle<cr>",
+        desc = "Resume the last yazi session",
+      },
+    },
+    ---@type YaziConfig
+    opts = {
+      -- if you want to open yazi instead of netrw, see below for more info
+      open_for_directories = false,
+      keymaps = {
+        show_help = "g~",
+      },
     },
   },
 }

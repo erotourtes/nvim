@@ -40,12 +40,16 @@ local options = {
     end,
   },
   mapping = {
+    -- ["<Up>"] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Select }),
+    -- ["<Down>"] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Select }),
+    ["<Up>"] = cmp.mapping.select_prev_item(),
+    ["<Down>"] = cmp.mapping.select_next_item(),
     ["<C-p>"] = cmp.mapping.select_prev_item(),
     ["<C-n>"] = cmp.mapping.select_next_item(),
     ["<C-d>"] = cmp.mapping.scroll_docs(4),
     ["<C-u>"] = cmp.mapping.scroll_docs(-4),
     ["<Tab>"] = cmp.mapping(function(fallback)
-      local copilot_keys = vim.fn["copilot#Accept"]()
+      -- local copilot_keys = vim.fn["copilot#Accept"]()
       if cmp.visible() then
         if luasnip.expandable() then
           luasnip.expand()
@@ -55,8 +59,8 @@ local options = {
             select = true,
           })
         end
-      elseif copilot_keys ~= "" and type(copilot_keys) == "string" then
-        vim.api.nvim_feedkeys(copilot_keys, "i", true)
+      -- elseif copilot_keys ~= "" and type(copilot_keys) == "string" then
+      --   vim.api.nvim_feedkeys(copilot_keys, "i", true)
       else
         fallback()
       end

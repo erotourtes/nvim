@@ -53,12 +53,13 @@ local lsps = {
   "svelte",
   "html",
   "jsonls",
-  "eslint",
+  -- "eslint",
   "cssls",
   "clangd",
   "bashls",
   "texlab",
   "gopls",
+  "zls",
   "dockerls",
   "docker_compose_language_service",
   "tailwindcss-language-server",
@@ -111,12 +112,12 @@ for type, icon in pairs(signs) do
   vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "None" })
 end
 
--- LSP stop for large files --
-local autocmd = vim.api.nvim_create_autocmd
-autocmd("BufWinEnter", {
-  -- Don't run LSP for large files.
-  pattern = "*",
-  callback = function()
-    vim.cmd([[if line2byte(line("$") + 1) > 1000000 | LspStop | endif]])
-  end,
-})
+-- -- LSP stop for large files --
+-- local autocmd = vim.api.nvim_create_autocmd
+-- autocmd("BufWinEnter", {
+--   -- Don't run LSP for large files.
+--   pattern = "*",
+--   callback = function()
+--     vim.cmd([[if line2byte(line("$") + 1) > 1000000 | LspStop | endif]])
+--   end,
+-- })

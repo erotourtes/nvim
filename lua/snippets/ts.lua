@@ -21,6 +21,8 @@ ls.add_snippets("all", {
     })
   ),
   s("sout", fmt([[console.log({});]], { i(1) })),
+  s("l", fmt([[({}) => {}]], { i(1), i(2) })),
+  s("fun", fmt([[function {}({}) {{{}}}]], { i(1), i(2), i(3) })),
 })
 
 -- -- Get a list of  the property names given an `interface_declaration`
@@ -46,7 +48,6 @@ ls.add_snippets("all", {
 --       prop_names[#prop_names + 1] = prop_name
 --     end
 --   end
---
 --   return prop_names
 -- end
 --

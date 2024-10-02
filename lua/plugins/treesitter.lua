@@ -28,9 +28,11 @@ ts_config.setup({
     "rust",
     "tsx",
     "typescript",
+    "hyprlang",
     "vim",
     "vimdoc",
     "fish",
+    "bash",
     "dockerfile",
     "latex",
     "json",
@@ -81,4 +83,8 @@ require("treesitter-context").setup({
       "else_clause",
     },
   },
+})
+
+vim.filetype.add({
+  pattern = { [".*/hypr/.*%.conf"] = "hyprlang" },
 })
