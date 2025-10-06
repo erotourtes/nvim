@@ -1,4 +1,3 @@
-local lspconfig = require("lspconfig")
 require("mason").setup({ max_concurrent_installers = 10 })
 require("mason-lspconfig").setup()
 local conform = require("conform")
@@ -21,8 +20,16 @@ local function on_attach(_, buffer)
   set("<Leader>la", vim.lsp.buf.code_action, "Available actions")
   set("<Leader>lcr", vim.lsp.codelens.refresh)
 
-  set("<M-p>", vim.diagnostic.goto_prev, "Go to previous diagnostic")
-  set("<M-n>", vim.diagnostic.goto_next, "Go to next diagnostic")
+  set(
+    "<M-p>",
+    function() vim.diagnostic.jump({ count = -1, float = true }) end,
+    "Go to previous diagnostic"
+  )
+  set(
+    "<M-n>",
+    function() vim.diagnostic.jump({ count = 1, float = true }) end,
+    "Go to next diagnostic"
+  )
 
   set("<leader>llr", function() vim.lsp.buf.references() end, "Show references")
 end
@@ -93,7 +100,7 @@ G.utils.tbl_each(lsps, function(server_name, server_config)
 
   if server_name == "tailwindcss-language-server" then server_name = "tailwindcss" end
 
-  lspconfig[server_name].setup(config)
+  vim.lsp.config(server_name, config)
 end)
 
 -- Format --
@@ -105,12 +112,22 @@ conform.setup({
   },
 })
 
--- Diagnostics signs --
-local signs = { Error = "", Warn = "", Hint = "", Info = "" }
-for type, icon in pairs(signs) do
-  local hl = "DiagnosticSign" .. type
-  vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "None" })
-end
+vim.diagnostic.config({
+  signs = {
+    text = {
+      [vim.diagnostic.severity.ERROR] = "",
+      [vim.diagnostic.severity.WARN] = "",
+      [vim.diagnostic.severity.INFO] = "",
+      [vim.diagnostic.severity.HINT] = "",
+    },
+    linehl = {
+      [vim.diagnostic.severity.ERROR] = "Error",
+      [vim.diagnostic.severity.WARN] = "Warn",
+      [vim.diagnostic.severity.INFO] = "Info",
+      [vim.diagnostic.severity.HINT] = "Hint",
+    },
+  },
+})
 
 -- -- LSP stop for large files --
 -- local autocmd = vim.api.nvim_create_autocmd

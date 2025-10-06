@@ -53,19 +53,6 @@ local plugins = {
     run = { run = ":TSUpdate" },
   },
   {
-    "hrsh7th/nvim-cmp",
-    event = "InsertEnter",
-    dependencies = {
-      "saadparwaiz1/cmp_luasnip",
-      "hrsh7th/cmp-nvim-lsp",
-      "hrsh7th/cmp-nvim-lua",
-      "hrsh7th/cmp-buffer",
-      "hrsh7th/cmp-path",
-      -- "rafamadriz/friendly-snippets",
-    },
-    config = function() require("plugins.cmp") end,
-  },
-  {
     "L3MON4D3/LuaSnip",
     build = "make install_jsregexp",
   },
@@ -215,6 +202,82 @@ local plugins = {
     "sindrets/diffview.nvim",
     default_args = {
       DiffviewOpen = { "--imply-local" },
+    },
+  },
+  {
+    "saghen/blink.cmp",
+    version = "1.*",
+    config = function()
+      require("blink.cmp").setup({
+        cmdline = { enabled = false },
+        completion = {
+          documentation = { auto_show = false, window = { border = "rounded" } },
+
+          menu = {
+            auto_show = true,
+            max_height = 20,
+            winblend = vim.o.pumblend,
+            border = "rounded",
+            draw = {
+              columns = {
+                { "label", "label_description", gap = 1 },
+                { "kind_icon", "kind", "source_name", gap = 0 },
+              },
+              components = {
+                source_name = {
+                  text = function(ctx) return " " .. ctx.item.source_name end,
+                },
+                kind_icon = {
+                  text = function(ctx) return ctx.kind_icon .. " " end,
+                },
+              },
+            },
+          },
+        },
+        appearance = { nerd_font_variant = "mono" },
+        keymap = {
+          preset = "default",
+          ["<C-l>"] = { "snippet_forward", "fallback" },
+          ["<C-h>"] = { "snippet_backward", "fallback" },
+          ["<C-k>"] = { "show_signature", "hide_signature", "fallback" },
+          ["<Tab>"] = {
+            function(cmp)
+              if cmp.snippet_active() then
+                return cmp.accept()
+              else
+                return cmp.select_and_accept()
+              end
+            end,
+            "snippet_forward",
+            "fallback",
+          },
+        },
+        sources = {
+          default = { "lsp", "path", "snippets", "buffer" },
+        },
+        fuzzy = { implementation = "prefer_rust_with_warning" },
+        snippets = { preset = "luasnip" },
+      })
+
+      table.insert(G.plugin_hl, function(color)
+        vim.api.nvim_set_hl(0, "BlinkCmpMenu", { bg = nil, fg = color.fg })
+        vim.api.nvim_set_hl(0, "BlinkCmpMenuBorder", { bg = nil, fg = color.fg })
+        vim.api.nvim_set_hl(0, "BlinkCmpDoc", { bg = nil, fg = color.fg })
+        vim.api.nvim_set_hl(0, "BlinkCmpDocBorder", { bg = nil, fg = color.fg })
+        vim.api.nvim_set_hl(0, "BlinkCmpDocSeparator", { bg = nil, fg = color.fg })
+        vim.api.nvim_set_hl(0, "BlinkCmpKind", { bg = nil, fg = color.fg })
+      end)
+    end,
+    opts_extend = { "sources.default" },
+  },
+  {
+    "saghen/blink.pairs",
+    version = "*", -- (recommended) only required with prebuilt binaries
+    dependencies = "saghen/blink.download",
+    opts = {
+      mappings = {
+        enabled = true,
+      },
     },
   },
   -- ╭─────────────────────────────────────────────────────────╮
